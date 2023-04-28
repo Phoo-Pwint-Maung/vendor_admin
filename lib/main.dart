@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vendor_admin/Authentication/view/sign_in.dart';
 import 'package:vendor_admin/Authentication/view/sign_up.dart';
 import 'package:vendor_admin/provider/providers.dart';
 import 'package:vendor_admin/testing/view/test_screen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const SignUpScreen(),
+        home: const SignInPage(),
       ),
     );
   }
