@@ -1,22 +1,38 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
 
-// This Register Components include TextFormField and Button
+// color
+final color = ColorConst();
+
 // Default RegisterFormField and // Default RegisterButton
+// RegisterTitle // RegisterSubTitle
+
 // Default RegisterFormField
 class RegisterFormfield extends StatefulWidget {
   final String text;
   final IconData formIcon;
-  final String? helperText;
   final Color? iconColor;
-  const RegisterFormfield(
-      {super.key,
-      required this.text,
-      required this.formIcon,
-      this.helperText,
-      this.iconColor});
+  final TextEditingController textEditingController;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatter;
+  final String? helperText;
+
+  const RegisterFormfield({
+    super.key,
+    required this.text,
+    required this.formIcon,
+    required this.textEditingController,
+    required this.keyboardType,
+    this.iconColor,
+    this.validator,
+    this.inputFormatter,
+    this.helperText,
+  });
 
   @override
   State<RegisterFormfield> createState() => _RegisterFormfieldState();
@@ -25,21 +41,28 @@ class RegisterFormfield extends StatefulWidget {
 class _RegisterFormfieldState extends State<RegisterFormfield> {
   @override
   Widget build(BuildContext context) {
-    // color
-    final color = ColorConst();
+    //This key will be used to identify the state of the form.
 
     return Column(
       children: [
         TextFormField(
+          inputFormatters: widget.inputFormatter,
+          keyboardType: widget.keyboardType,
+
+          cursorColor: color.black,
+          controller: widget.textEditingController,
           // This is the event for tap other area of formfield and unfocus of this
           onTapOutside: (event) {
             FocusManager.instance.primaryFocus?.unfocus();
           },
-
+          validator: widget.validator,
           decoration: InputDecoration(
-            helperText: widget.helperText,
             labelText: widget.text,
             labelStyle: TextStyle(
+              color: color.black,
+            ),
+            helperText: widget.helperText,
+            helperStyle: TextStyle(
               color: color.black,
             ),
             focusedBorder: OutlineInputBorder(
@@ -51,7 +74,7 @@ class _RegisterFormfieldState extends State<RegisterFormfield> {
                 10,
               ),
             ),
-            enabledBorder: OutlineInputBorder(
+            border: OutlineInputBorder(
               borderSide: const BorderSide(
                 color: Colors.black,
               ),
@@ -73,49 +96,86 @@ class _RegisterFormfieldState extends State<RegisterFormfield> {
   }
 }
 
-// Default RegisterButton
-
-class RegisterButton extends StatefulWidget {
-  final String text;
-  const RegisterButton({super.key, required this.text});
-
-  @override
-  State<RegisterButton> createState() => _RegisterButtonState();
-}
-
-class _RegisterButtonState extends State<RegisterButton> {
-  // color
-  final color = ColorConst();
+// Register Button
+class RegisterButton extends StatelessWidget {
+  final void Function()? btnPressed;
+  final String btnName;
+  const RegisterButton({
+    super.key,
+    required this.btnPressed,
+    required this.btnName,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 60,
-              vertical: 10,
-            ),
-            side: BorderSide(
-              color: color.black,
-              width: 2,
-            ),
-          ),
-          child: Text(
-            widget.text,
+    // screen width
+    double screenWidth = MediaQuery.of(context).size.width;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(screenWidth * 0.8, 40),
+        backgroundColor: color.secondaryColor,
+      ),
+      onPressed: btnPressed,
+      child: Text(
+        btnName,
+        style: const TextStyle(
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
+}
+
+// RegisterTitle
+class RegisterTitle extends StatelessWidget {
+  final String titleName;
+  const RegisterTitle({super.key, required this.titleName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      titleName,
+      style: const TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
+// RegisterSubTitle
+class RegisterSubTitle extends StatelessWidget {
+  final String firstText;
+  final String secondText;
+  final GestureRecognizer? changePage;
+  const RegisterSubTitle({
+    super.key,
+    required this.firstText,
+    required this.secondText,
+    required this.changePage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: firstText,
+        style: TextStyle(
+          fontSize: 14,
+          color: color.black,
+        ),
+        children: [
+          TextSpan(
+            text: secondText,
             style: TextStyle(
-              color: color.black,
+              fontWeight: FontWeight.w700,
+              color: color.secondaryColor,
               fontSize: 16,
-              fontWeight: FontWeight.w600,
             ),
+            recognizer: changePage,
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

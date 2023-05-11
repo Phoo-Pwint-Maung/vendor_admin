@@ -1,32 +1,104 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/src/response.dart';
+import 'package:dio/dio.dart';
+import 'package:dio/src/response.dart';
 
 // This is Get Api , default
-// If api needs header , add header , if need to add param , add like apiKey
 class GetApi {
-  String _baseUrl = "https://spotify23.p.rapidapi.com/";
-  final Map<String, String> _header = {};
-  String _apiKey = "";
-  String _apiHost = "";
+  final dio = Dio();
+  String _baseUrl = "https://api.nstack.in/v1/todos";
 
-  Future<Response> getApi(
-      {required String endPoint,
-      String? baseUrl,
-      String? apiKey,
-      String? apiHost}) async {
+  Future<Response> getApi({
+    required String endPoint,
+    String? baseUrl,
+  }) async {
     if (baseUrl != null) {
       _baseUrl = baseUrl;
     }
-    if (apiKey != null) {
-      _apiKey = apiKey;
-    }
-    _header["X-RapidAPI-Key"] = _apiKey;
-    if (apiHost != null) {
-      _apiHost = apiHost;
-    }
-    _header["X-RapidAPI-Host"] = _apiHost;
 
-    return await http.get(Uri.parse("$_baseUrl$endPoint"), headers: _header);
+    return await dio.get("$_baseUrl$endPoint");
+  }
+}
+
+// Delete Api
+class DeleteApi {
+  final dio = Dio();
+  String _baseUrl = "https://api.nstack.in/v1/todos/";
+
+  Future<Response> deleteApi({
+    required String id,
+    String? baseUrl,
+  }) async {
+    if (baseUrl != null) {
+      _baseUrl = baseUrl;
+    }
+
+    return await dio.delete("$_baseUrl$id");
+  }
+}
+
+// Post Api
+class PostApi {
+  final dio = Dio();
+
+  Future<void> submitData(
+      TextEditingController title, TextEditingController description) async {
+    final titleText = title.text;
+    final desText = description.text;
+
+    final body = {
+      "title": titleText,
+      "description": desText,
+      "is_completed": false
+    };
+
+    String url = "https://api.nstack.in/v1/todos";
+    Uri uri = Uri.parse(url);
+
+    final response = await dio.post(
+      url,
+      data: body,
+      options: Options(
+        contentType: Headers.jsonContentType,
+      ),
+    );
+
+    // final response = await http.post(uri,
+    //     body: jsonEncode(body), headers: {"Content-Type": "application/json"});
+  }
+}
+
+// Put Api
+class PutApi {
+  final dio = Dio();
+
+  Future<void> submitData(TextEditingController title,
+      TextEditingController description, String id) async {
+    final titleText = title.text;
+    final desText = description.text;
+
+    final body = {
+      "title": titleText,
+      "description": desText,
+      "is_completed": false
+    };
+
+    String url = "https://api.nstack.in/v1/todos/$id";
+
+    final response = await dio.put(
+      url,
+      data: body,
+      options: Options(
+        contentType: Headers.jsonContentType,
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      print("good put");
+    } else {
+      print('error');
+    }
+
+    // final response = await http.post(uri,
+    //     body: jsonEncode(body), headers: {"Content-Type": "application/json"});
   }
 }
