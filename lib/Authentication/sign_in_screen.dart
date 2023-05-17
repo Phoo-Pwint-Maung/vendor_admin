@@ -97,6 +97,8 @@ class _SignInState extends State<SignIn> {
                         btnPressed: () {
                           if (formKey.currentState!.validate()) {
                             // If validation steps Success, Go to Home Page
+                            controller.postData(
+                                controller.name, controller.email, context);
                             print("ok validate success");
                           }
                         },

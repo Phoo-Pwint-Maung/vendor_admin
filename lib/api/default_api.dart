@@ -5,7 +5,7 @@ import 'package:dio/src/response.dart';
 // This is Get Api , default
 class GetApi {
   final dio = Dio();
-  String _baseUrl = "https://api.nstack.in/v1/todos";
+  String _baseUrl = "http://192.168.2.111:9999/api/admin/";
 
   Future<Response> getApi({
     required String endPoint,

@@ -129,14 +129,11 @@ class _SignUpState extends State<SignUp> {
                               textEditingController: controller.password,
                               // inputFormatter: [
                               //   FilteringTextInputFormatter.deny(
-                              //     RegExp(r'^ ?\d*'),
+                              //     RegExp(" "),
                               //   ),
                               // ],
                               validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "type something";
-                                }
-                                return null;
+                                return controller.validatePassword(value);
                               },
                             ),
                           ],
@@ -146,7 +143,12 @@ class _SignUpState extends State<SignUp> {
                           btnPressed: () {
                             if (controller.formKey.currentState!.validate()) {
                               // If validation steps Success, Go to Home Page
-                              print("ok validate success");
+                              controller.postData(
+                                  controller.name,
+                                  controller.username,
+                                  controller.email,
+                                  controller.password,
+                                  context);
                             }
                           },
                           btnName: "Register")
