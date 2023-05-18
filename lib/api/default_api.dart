@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
+import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
 // This is Get Api , default
 class GetApi {
   final dio = Dio();
-  String _baseUrl = "http://192.168.2.111:9999/api/admin/";
+  String _baseUrl = mainUrl;
 
   Future<Response> getApi({
     required String endPoint,
@@ -16,6 +17,27 @@ class GetApi {
     }
 
     return await dio.get("$_baseUrl$endPoint");
+  }
+}
+
+// Post Api
+class PostApi {
+  final dio = Dio();
+  String url = "";
+
+  Future<String> submitData({
+    required String endPoint,
+    int? id,
+  }) async {
+    if (id != null) {
+      url = "$mainUrl$endPoint?$id";
+    }
+    url = "$mainUrl$endPoint";
+
+    return url;
+
+    // final response = await http.post(uri,
+    //     body: jsonEncode(body), headers: {"Content-Type": "application/json"});
   }
 }
 
@@ -33,37 +55,6 @@ class DeleteApi {
     }
 
     return await dio.delete("$_baseUrl$id");
-  }
-}
-
-// Post Api
-class PostApi {
-  final dio = Dio();
-
-  Future<void> submitData(
-      TextEditingController title, TextEditingController description) async {
-    final titleText = title.text;
-    final desText = description.text;
-
-    final body = {
-      "title": titleText,
-      "description": desText,
-      "is_completed": false
-    };
-
-    String url = "https://api.nstack.in/v1/todos";
-    Uri uri = Uri.parse(url);
-
-    final response = await dio.post(
-      url,
-      data: body,
-      options: Options(
-        contentType: Headers.jsonContentType,
-      ),
-    );
-
-    // final response = await http.post(uri,
-    //     body: jsonEncode(body), headers: {"Content-Type": "application/json"});
   }
 }
 

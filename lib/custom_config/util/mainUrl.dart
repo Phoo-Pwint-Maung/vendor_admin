@@ -1,1 +1,1 @@
-final mainUrl = "http://192.168.100.23:9999/api/admin";
+final mainUrl = "https://lapyae.mickhae.com/api/admin";

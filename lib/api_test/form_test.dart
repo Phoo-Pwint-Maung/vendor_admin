@@ -83,7 +83,12 @@ class _FormTestState extends State<FormTest> {
               OutlinedButton(
                 onPressed: () {
                   if (widget.function == 'Add') {
-                    PostApi().submitData(title, description);
+                    // PostApi().submitData(
+                    //   {
+                    //     "name": "Phoo",
+                    //   },
+                    //   2,
+                    // );
                   } else if (widget.function == 'Edit') {
                     final id = widget.id;
                     if (id != null) {

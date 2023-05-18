@@ -2,7 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:provider/provider.dart';
+import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/Authentication/sign_in_screen.dart';
 import 'package:vendor_admin/Authentication/sign_up_controller.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
@@ -20,10 +21,13 @@ class _SignUpState extends State<SignUp> {
   final controller = SignUpFormController();
   // color
   final color = ColorConst();
+
   @override
   Widget build(BuildContext context) {
     // width
     double screenWidth = MediaQuery.of(context).size.width;
+    final model = Provider.of<SignUpModel>(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: color.ternaryColor,
@@ -76,29 +80,6 @@ class _SignUpState extends State<SignUp> {
                               keyboardType: TextInputType.name,
                               iconColor: color.black,
                               textEditingController: controller.name,
-                              // inputFormatter: [
-                              //   FilteringTextInputFormatter.deny(
-                              //     RegExp(r'^ ?\d*'),
-                              //   ),
-                              // ],
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "type something";
-                                }
-                                return null;
-                              },
-                            ),
-                            RegisterFormfield(
-                              text: "Username",
-                              formIcon: Icons.person,
-                              keyboardType: TextInputType.name,
-                              iconColor: color.black,
-                              textEditingController: controller.username,
-                              // inputFormatter: [
-                              //   FilteringTextInputFormatter.deny(
-                              //     RegExp(r'^ ?\d*'),
-                              //   ),
-                              // ],
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "type something";
@@ -127,11 +108,6 @@ class _SignUpState extends State<SignUp> {
                               keyboardType: TextInputType.text,
                               iconColor: color.black,
                               textEditingController: controller.password,
-                              // inputFormatter: [
-                              //   FilteringTextInputFormatter.deny(
-                              //     RegExp(" "),
-                              //   ),
-                              // ],
                               validator: (value) {
                                 return controller.validatePassword(value);
                               },
@@ -140,18 +116,21 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       RegisterButton(
-                          btnPressed: () {
-                            if (controller.formKey.currentState!.validate()) {
-                              // If validation steps Success, Go to Home Page
-                              controller.postData(
-                                  controller.name,
-                                  controller.username,
-                                  controller.email,
-                                  controller.password,
-                                  context);
-                            }
-                          },
-                          btnName: "Register")
+                        btnPressed: () {
+                          if (controller.formKey.currentState!.validate()) {
+                            // If validation steps Success, Go to Home Page
+                            controller.register();
+
+                            print(model.emailError);
+                            // if (model.emailError.isNotEmpty) {
+                            //   print(model.emailError);
+                            //   controller.showErrorMessage(
+                            //       model.emailError, context);
+                            // }
+                          }
+                        },
+                        btnName: "Register",
+                      ),
                     ],
                   ),
                 ),
