@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vendor_admin/brand_page/all_brand_controller.dart';
-import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
 class AllBrandScreen extends StatefulWidget {
   const AllBrandScreen({super.key});

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/Authentication/sign_in_screen.dart';
 import 'package:vendor_admin/Authentication/sign_up_controller.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
@@ -26,8 +25,6 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     // width
     double screenWidth = MediaQuery.of(context).size.width;
-    final model = Provider.of<SignUpModel>(context);
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: color.ternaryColor,
@@ -119,14 +116,7 @@ class _SignUpState extends State<SignUp> {
                         btnPressed: () {
                           if (controller.formKey.currentState!.validate()) {
                             // If validation steps Success, Go to Home Page
-                            controller.register();
-
-                            print(model.emailError);
-                            // if (model.emailError.isNotEmpty) {
-                            //   print(model.emailError);
-                            //   controller.showErrorMessage(
-                            //       model.emailError, context);
-                            // }
+                            controller.register(context);
                           }
                         },
                         btnName: "Register",

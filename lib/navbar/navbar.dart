@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
 import 'package:vendor_admin/navbar/navbar_item.dart';
 import 'package:vendor_admin/navbar/navbar_controller.dart';
-import 'package:vendor_admin/navbar/navbar_mode.dart';
+import 'package:vendor_admin/navbar/navbar_model.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
 
 class NavBar extends StatefulWidget {
@@ -18,7 +19,8 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     var currentPage = Provider.of<NavBarModel>(context).currentPage;
-    return Consumer<NavBarModel>(builder: (context, navBarModel, _) {
+    return Consumer2<NavBarModel, SignInModel>(
+        builder: (context, navBarModel, signin, _) {
       return Drawer(
         backgroundColor: color.ternaryColor,
         child: SingleChildScrollView(
@@ -26,10 +28,10 @@ class _NavBarState extends State<NavBar> {
           child: Column(
             children: [
               // Drawer header
-              const UserAccountsDrawerHeader(
-                accountName: Text('John Doe'),
-                accountEmail: Text('john.doe@example.com'),
-                currentAccountPicture: CircleAvatar(
+              UserAccountsDrawerHeader(
+                accountName: Text(signin.name),
+                accountEmail: Text(signin.email),
+                currentAccountPicture: const CircleAvatar(
                   child: Text('JD'),
                 ),
               ),
@@ -66,6 +68,13 @@ class _NavBarState extends State<NavBar> {
                     splashColor: color.primaryColor,
                   ),
                 ],
+              ),
+
+              NavBarItem(
+                id: 10,
+                icon: Icons.arrow_back_ios_new,
+                title: "LogOut",
+                selected: currentPage == DrawerSection.logOut ? true : false,
               ),
             ],
           ),

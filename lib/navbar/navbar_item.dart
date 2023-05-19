@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/navbar/navbar_mode.dart';
+import 'package:vendor_admin/Authentication/log_out_controller.dart';
+import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
+import 'package:vendor_admin/Authentication/sign_in_screen.dart';
+import 'package:vendor_admin/navbar/navbar_model.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
 
 class NavBarItem extends StatefulWidget {
@@ -23,7 +26,8 @@ class NavBarItem extends StatefulWidget {
 class _NavBarItemState extends State<NavBarItem> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<NavBarModel>(builder: (context, navBarModel, _) {
+    return Consumer2<NavBarModel, SignInModel>(
+        builder: (context, navBarModel, signin, _) {
       return Material(
         color: widget.selected ? color.secondaryColor : Colors.transparent,
         child: ListTile(
@@ -42,6 +46,10 @@ class _NavBarItemState extends State<NavBarItem> {
               navBarModel.changePage(DrawerSection.home);
             } else if (widget.id == 2) {
               navBarModel.changePage(DrawerSection.allBrand);
+            } else if (widget.id == 10) {
+              // LogOut
+              final controller = LogOutController();
+              controller.logOut(context);
             }
           },
         ),

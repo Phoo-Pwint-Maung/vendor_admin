@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: provider,
       child: MaterialApp(
+        scaffoldMessengerKey: GlobalKey<ScaffoldMessengerState>(),
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,

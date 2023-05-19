@@ -63,29 +63,23 @@ class _SignInState extends State<SignIn> {
                         child: Column(
                           children: [
                             RegisterFormfield(
-                              text: "Name",
-                              formIcon: Icons.person,
-                              iconColor: color.black,
-                              keyboardType: TextInputType.name,
-                              textEditingController: controller.name,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "type something";
-                                }
-                                return null;
-                              },
-                            ),
-                            RegisterFormfield(
                               text: "Email",
-                              formIcon: Icons.mail,
+                              formIcon: Icons.person,
                               iconColor: color.black,
                               keyboardType: TextInputType.emailAddress,
                               textEditingController: controller.email,
                               validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "type something";
-                                }
-                                return null;
+                                return controller.validateEmail(value);
+                              },
+                            ),
+                            RegisterFormfield(
+                              text: "Password",
+                              formIcon: Icons.mail,
+                              iconColor: color.black,
+                              keyboardType: TextInputType.emailAddress,
+                              textEditingController: controller.password,
+                              validator: (value) {
+                                return controller.validatePassword(value);
                               },
                             ),
                           ],
@@ -96,9 +90,7 @@ class _SignInState extends State<SignIn> {
                         btnPressed: () {
                           if (formKey.currentState!.validate()) {
                             // If validation steps Success, Go to Home Page
-                            controller.postData(
-                                controller.name, controller.email, context);
-                            print("ok validate success");
+                            controller.login(context);
                           }
                         },
                       )

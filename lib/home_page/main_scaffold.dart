@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vendor_admin/brand_page/all_brand_screen.dart';
 import 'package:vendor_admin/navbar/navbar.dart';
-import 'package:vendor_admin/navbar/navbar_mode.dart';
+import 'package:vendor_admin/navbar/navbar_model.dart';
 import 'package:vendor_admin/home_page/home_controller.dart';
 import 'package:vendor_admin/home_page/home_screen.dart';
 

@@ -12,4 +12,5 @@ enum DrawerSection {
   home,
   allBrand,
   addBrand,
+  logOut,
 }
