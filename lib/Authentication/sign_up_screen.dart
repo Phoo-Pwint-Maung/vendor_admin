@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/sign_in_screen.dart';
 import 'package:vendor_admin/Authentication/sign_up_controller.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';

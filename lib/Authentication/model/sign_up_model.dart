@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 
-class SignInModel {
-  String id;
-  String name;
-  String email;
-  String authToken;
+class SignUpModel {
+  final String id;
+  final String name;
+  final String email;
+  final String authToken;
 
-  SignInModel(
+  SignUpModel(
       {required this.id,
       required this.name,
       required this.email,
       required this.authToken});
 }
 
-class SignInData extends ChangeNotifier {
+class SignUpData extends ChangeNotifier {
   var id = '';
   var name = '';
   var email = '';
-  var signInAuthToken = '';
+  var signUpAuthToken = '';
+  var fromSignUp = false;
 
-  void keepData(SignInModel data) {
+  void keepData(SignUpModel data) {
     id = data.id.toString();
     name = data.name.toString();
     email = data.email.toString();
-    signInAuthToken = data.authToken.toString();
-
+    signUpAuthToken = data.authToken.toString();
+    fromSignUp = true;
     notifyListeners();
   }
 }

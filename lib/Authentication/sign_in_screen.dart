@@ -69,7 +69,8 @@ class _SignInState extends State<SignIn> {
                               keyboardType: TextInputType.emailAddress,
                               textEditingController: controller.email,
                               validator: (value) {
-                                return controller.validateEmail(value);
+                                return controller.signUpController
+                                    .validateEmail(value);
                               },
                             ),
                             RegisterFormfield(
@@ -79,7 +80,8 @@ class _SignInState extends State<SignIn> {
                               keyboardType: TextInputType.emailAddress,
                               textEditingController: controller.password,
                               validator: (value) {
-                                return controller.validatePassword(value);
+                                return controller.signUpController
+                                    .validatePassword(value);
                               },
                             ),
                           ],

@@ -1,1 +1,1 @@
-final mainUrl = "https://lapyae.mickhae.com/api/admin";
+const mainUrl = "https://lapyae.mickhae.com/api/admin";

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 import 'package:vendor_admin/home_page/main_scaffold.dart';
 
@@ -34,6 +35,21 @@ class SignUpFormController {
     try {
       if (response.statusCode == 200 &&
           response.data['error'].toString() == "false") {
+        final String id = response.data["data"]["_id"].toString();
+        final String name = response.data["data"]["name"].toString();
+        final String email = response.data["data"]["email"].toString();
+        final String authToken = response.data["data"]["auth_token"].toString();
+        // Store Data
+        final signUpData = Provider.of<SignUpData>(context, listen: false);
+        signUpData.keepData(
+          SignUpModel(
+            id: id,
+            name: name,
+            email: email,
+            authToken: authToken,
+          ),
+        );
+        // Navigate to HomeScreen
         Future.microtask(
           () {
             Navigator.push(

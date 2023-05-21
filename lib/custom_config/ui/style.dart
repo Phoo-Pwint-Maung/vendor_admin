@@ -9,4 +9,5 @@ class ColorConst {
   final white = Colors.white;
   final black = Colors.black;
   final grey = Colors.grey;
+  final red = Colors.red;
 }

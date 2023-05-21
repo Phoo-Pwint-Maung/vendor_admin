@@ -2,18 +2,25 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
+import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 import 'package:vendor_admin/Authentication/sign_up_screen.dart';
+import 'package:vendor_admin/Authentication/sign_up_controller.dart';
 
 class LogOutController {
   final dio = Dio();
   String id = '';
   String token = '';
+  final signUpController = SignUpFormController();
 
   Future<void> logOut(BuildContext context) async {
-    final signInData = Provider.of<SignInModel>(context, listen: false);
-    id = signInData.id;
-    token = signInData.signInAuthToken;
+    final signInData = Provider.of<SignInData>(context, listen: false);
+    final signUpData = Provider.of<SignUpData>(context, listen: false);
+    signUpData.fromSignUp ? id = signUpData.id : id = signInData.id;
+
+    signUpData.fromSignUp
+        ? token = signUpData.signUpAuthToken
+        : token = signInData.signInAuthToken;
     final String url = "$mainUrl/logout?admin_id=$id";
 
     final response = await dio.post(
@@ -38,29 +45,22 @@ class LogOutController {
                 builder: (_) => const SignUp(),
               ),
             );
-            showSnackBar(
+            signUpController.showSnackBar(
               context,
               response.data['message'].toString(),
             );
           },
         );
       } else if (response.data['message'].toString().isNotEmpty) {
-        showSnackBar(
+        signUpController.showSnackBar(
           context,
           response.data['message'].toString(),
         );
       } else {
-        showSnackBar(context, "Server Error");
+        signUpController.showSnackBar(context, "Server Error");
       }
     } on DioError catch (_) {
-      showSnackBar(context, "Something Wrong");
+      signUpController.showSnackBar(context, "Something Wrong");
     }
-  }
-
-  void showSnackBar(BuildContext context, String errMessage) {
-    final snackBar = SnackBar(
-      content: Text(errMessage),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

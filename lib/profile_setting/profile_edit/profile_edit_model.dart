@@ -1,0 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class ProfileEditModel extends ChangeNotifier {
+  XFile? image;
+  XFile? editImage;
+  bool isSaved = false;
+
+  final ImagePicker picker = ImagePicker();
+
+  Future<void> chooseImage() async {
+    XFile? imageChoose = await picker.pickImage(source: ImageSource.gallery);
+
+    if (imageChoose != null) {
+      editImage = imageChoose;
+    }
+
+    notifyListeners();
+  }
+
+  void saved() {
+    if (isSaved && editImage != null) {
+      image = editImage;
+    }
+    notifyListeners();
+  }
+}
