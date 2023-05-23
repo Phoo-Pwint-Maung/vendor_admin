@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileEditModel extends ChangeNotifier {
   XFile? image;
   XFile? editImage;
+  String? imageStr;
   bool isSaved = false;
 
   final ImagePicker picker = ImagePicker();
@@ -13,6 +16,11 @@ class ProfileEditModel extends ChangeNotifier {
 
     if (imageChoose != null) {
       editImage = imageChoose;
+      List<int> singleImageBytes = await imageChoose.readAsBytes();
+      String singleImageBase =
+          'data:image/png;base64,' + base64Encode(singleImageBytes);
+
+      imageStr = singleImageBase;
     }
 
     notifyListeners();

@@ -40,32 +40,78 @@ class _NavBarState extends State<NavBar> {
                     ? true
                     : false,
               ),
-              NavBarItem(
-                id: 2,
-                icon: Icons.home,
-                title: "All Brand",
-                selected: navBarModel.currentPage == DrawerSection.allBrand
-                    ? true
-                    : false,
+              ExpansionTile(
+                leading: Icon(Icons.card_travel),
+                controller: controller.brandExpansionTile,
+                title: Text("Brands"),
+                children: [
+                  NavBarItem(
+                    id: 2,
+                    icon: Icons.home,
+                    title: "All Brand",
+                    selected: navBarModel.currentPage == DrawerSection.allBrand
+                        ? true
+                        : false,
+                  ),
+                  NavBarItem(
+                    id: 3,
+                    icon: Icons.home,
+                    title: "Add Brand",
+                    selected: navBarModel.currentPage == DrawerSection.addBrand
+                        ? true
+                        : false,
+                  ),
+                ],
               ),
               ExpansionTile(
                 leading: Icon(Icons.card_travel),
-                controller: controller.expansionTile,
-                title: Text("Brands"),
+                controller: controller.categoryExpansionTile,
+                title: Text("Categories"),
                 children: [
-                  ListTile(
-                    leading: Icon(Icons.card_travel),
-                    title: Text("All Brands"),
-                    onTap: () => null,
-                    hoverColor: color.secondaryColor,
-                    splashColor: color.primaryColor,
+                  NavBarItem(
+                    id: 4,
+                    icon: Icons.home,
+                    title: "All Category",
+                    selected:
+                        navBarModel.currentPage == DrawerSection.allCategory
+                            ? true
+                            : false,
                   ),
-                  ListTile(
-                    leading: Icon(Icons.card_travel),
-                    title: Text("Add Brand"),
-                    onTap: () => null,
-                    hoverColor: color.secondaryColor,
-                    splashColor: color.primaryColor,
+                  NavBarItem(
+                    id: 5,
+                    icon: Icons.home,
+                    title: "Add Category",
+                    selected: navBarModel.currentPage ==
+                                DrawerSection.allBrand ||
+                            navBarModel.currentPage == DrawerSection.addCategory
+                        ? true
+                        : false,
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                leading: Icon(Icons.card_travel),
+                controller: controller.businessExpansionTile,
+                title: Text("Business"),
+                children: [
+                  NavBarItem(
+                    id: 6,
+                    icon: Icons.home,
+                    title: "All Business",
+                    selected:
+                        navBarModel.currentPage == DrawerSection.allBusiness
+                            ? true
+                            : false,
+                  ),
+                  NavBarItem(
+                    id: 7,
+                    icon: Icons.home,
+                    title: "Add Business",
+                    selected: navBarModel.currentPage ==
+                                DrawerSection.allBrand ||
+                            navBarModel.currentPage == DrawerSection.addBusiness
+                        ? true
+                        : false,
                   ),
                 ],
               ),

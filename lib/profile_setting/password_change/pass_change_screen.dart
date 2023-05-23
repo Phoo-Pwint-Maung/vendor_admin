@@ -71,7 +71,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                       textEditingController: controller.newPassword,
                       hintText: "New Password",
                       validate: (value) {
-                        // return signUpController.validatePassword(value);
+                        return signUpController.validatePassword(value);
                       },
                     ),
                     SizedBoxHeight(height: 30),
@@ -79,7 +79,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                       textEditingController: controller.newPasswordComfirmation,
                       hintText: "New Password",
                       validate: (value) {
-                        // return signUpController.validatePassword(value);
+                        return signUpController.validatePassword(value);
                       },
                     ),
                   ],

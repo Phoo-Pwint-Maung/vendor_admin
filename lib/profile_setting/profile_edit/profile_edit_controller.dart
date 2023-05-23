@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
 import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
+import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 import 'package:vendor_admin/profile_setting/profile_edit/profile_edit_model.dart';
 import 'package:vendor_admin/Authentication/sign_up_controller.dart';
@@ -29,17 +30,23 @@ class ProfileEditController {
     if (signUpData.name == name!.text || signInData.name == name!.text) {
       signUpController.showSnackBar(context, "* Change Something Your Name");
     } else {
-      signUpData.fromSignUp ? id = signUpData.id : id = signInData.id;
-      signUpData.fromSignUp
-          ? token = signUpData.signUpAuthToken
-          : token = signInData.signInAuthToken;
+      // Get Id and Token
+      List<String> idTokenList = idAndToken(context);
+      id = idTokenList[0];
+      token = idTokenList[1];
+      // Get Id and Token
 
-      if (profileEdit.editImage != null) {
-        File file = File(profileEdit.editImage!.path);
+      // if (profileEdit.editImage != null) {
+      //   File file = File(profileEdit.editImage!.path);
 
-        List<int> unit8 = file.readAsBytesSync();
+      //   List<int> unit8 = file.readAsBytesSync();
 
-        profile = base64Encode(unit8);
+      //   profile = base64Encode(unit8);
+
+      // }
+      if (profileEdit.imageStr != null) {
+        profile = profileEdit.imageStr;
+        print(profile);
       }
 
       final String url = "$mainUrl/profile?admin_id=$id";
@@ -58,6 +65,8 @@ class ProfileEditController {
           contentType: Headers.jsonContentType,
         ),
       );
+
+      print(response);
 
       try {
         if (response.statusCode == 200 &&

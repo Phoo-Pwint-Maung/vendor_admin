@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NavBarController {
-  final ExpansionTileController expansionTile = ExpansionTileController();
+  final ExpansionTileController brandExpansionTile = ExpansionTileController();
+  final ExpansionTileController categoryExpansionTile =
+      ExpansionTileController();
+  final ExpansionTileController businessExpansionTile =
+      ExpansionTileController();
   final scroll = ScrollController();
 }

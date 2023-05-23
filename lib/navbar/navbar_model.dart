@@ -12,6 +12,10 @@ enum DrawerSection {
   home,
   allBrand,
   addBrand,
+  allCategory,
+  addCategory,
+  allBusiness,
+  addBusiness,
   profileSetting,
   logOut,
 }

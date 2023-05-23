@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/all_brand_screen.dart';
+import 'package:vendor_admin/brand_page/add_brand_screen.dart';
+import 'package:vendor_admin/business_page/add_business_screen.dart';
+import 'package:vendor_admin/business_page/all_business_screen.dart';
+import 'package:vendor_admin/category_page/add_category_screen.dart';
+import 'package:vendor_admin/category_page/all_category_screen.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
 import 'package:vendor_admin/navbar/navbar.dart';
 import 'package:vendor_admin/navbar/navbar_model.dart';
@@ -35,6 +40,21 @@ class _MainScaffoldState extends State<MainScaffold> {
     } else if (currentPage == DrawerSection.allBrand) {
       container = const AllBrandScreen();
       title = 'All Brand';
+    } else if (currentPage == DrawerSection.addBrand) {
+      container = const AddBrandScreen();
+      title = 'Add Brand';
+    } else if (currentPage == DrawerSection.allCategory) {
+      container = const AllCategoryScreen();
+      title = 'All Category';
+    } else if (currentPage == DrawerSection.addCategory) {
+      container = const AddCategoryScreen();
+      title = 'Add Category';
+    } else if (currentPage == DrawerSection.allBusiness) {
+      container = const AllBusinessScreen();
+      title = 'All Business';
+    } else if (currentPage == DrawerSection.addBusiness) {
+      container = const AddBusinessScreen();
+      title = 'Add Business';
     } else if (currentPage == DrawerSection.profileSetting) {
       container = const ProfileSetting();
       title = 'Profile Setting';

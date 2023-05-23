@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/log_out_controller.dart';
+import 'package:vendor_admin/business_page/all_business_controller.dart';
 import 'package:vendor_admin/navbar/navbar_model.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
 
@@ -43,6 +44,18 @@ class _NavBarItemState extends State<NavBarItem> {
               navBarModel.changePage(DrawerSection.home);
             } else if (widget.id == 2) {
               navBarModel.changePage(DrawerSection.allBrand);
+            } else if (widget.id == 3) {
+              navBarModel.changePage(DrawerSection.addBrand);
+            } else if (widget.id == 4) {
+              navBarModel.changePage(DrawerSection.allCategory);
+            } else if (widget.id == 5) {
+              navBarModel.changePage(DrawerSection.allBrand);
+            } else if (widget.id == 6) {
+              navBarModel.changePage(DrawerSection.allBusiness);
+              final allBusiness = AllBusinessController();
+              allBusiness.getAllBusiness(context);
+            } else if (widget.id == 7) {
+              navBarModel.changePage(DrawerSection.addBusiness);
             } else if (widget.id == 9) {
               // Profile Setting
               navBarModel.changePage(DrawerSection.profileSetting);

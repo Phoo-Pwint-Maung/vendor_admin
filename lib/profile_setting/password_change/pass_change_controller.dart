@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
-import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:dio/dio.dart';
 import 'package:vendor_admin/Authentication/sign_up_controller.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
+import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 import 'package:vendor_admin/profile_setting/password_change/pass_change_model.dart';
 
@@ -28,13 +27,13 @@ class PassChangeController {
 
   void passwordChanged(BuildContext context) async {
     print("start");
-    final signInData = Provider.of<SignInData>(context, listen: false);
-    final signUpData = Provider.of<SignUpData>(context, listen: false);
+
     final model = Provider.of<PassChangeModel>(context, listen: false);
-    signUpData.fromSignUp ? id = signUpData.id : id = signInData.id;
-    signUpData.fromSignUp
-        ? token = signUpData.signUpAuthToken
-        : token = signInData.signInAuthToken;
+    // Get Id and Token
+    List<String> idTokenList = idAndToken(context);
+    id = idTokenList[0];
+    token = idTokenList[1];
+    // Get Id and Token
     final String url = "$mainUrl/change/password?admin_id=$id";
 
     final body = {
@@ -42,6 +41,8 @@ class PassChangeController {
       "new_password": newPassword.text,
       "new_password_confirmation": newPasswordComfirmation.text,
     };
+    print(token);
+    print(id);
     print("posting");
     final response = await dio.post(
       url,
