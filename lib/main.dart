@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vendor_admin/Authentication/sign_up_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:vendor_admin/home_page/main_scaffold.dart';
 import 'package:vendor_admin/provider/providers.dart';
 
 void main() {

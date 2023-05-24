@@ -12,6 +12,8 @@ import 'package:vendor_admin/navbar/navbar.dart';
 import 'package:vendor_admin/navbar/navbar_model.dart';
 import 'package:vendor_admin/home_page/home_controller.dart';
 import 'package:vendor_admin/home_page/home_screen.dart';
+import 'package:vendor_admin/product_page/add_product_screen.dart';
+import 'package:vendor_admin/product_page/all_product_screen.dart';
 import 'package:vendor_admin/profile_setting/profile_setting_screen.dart';
 
 class MainScaffold extends StatefulWidget {
@@ -55,6 +57,12 @@ class _MainScaffoldState extends State<MainScaffold> {
     } else if (currentPage == DrawerSection.addBusiness) {
       container = const AddBusinessScreen();
       title = 'Add Business';
+    } else if (currentPage == DrawerSection.allProduct) {
+      container = const AllProductScreen();
+      title = 'Add Product';
+    } else if (currentPage == DrawerSection.addProduct) {
+      container = const AddProductScreen();
+      title = 'Add Product';
     } else if (currentPage == DrawerSection.profileSetting) {
       container = const ProfileSetting();
       title = 'Profile Setting';

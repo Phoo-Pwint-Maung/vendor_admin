@@ -6,5 +6,7 @@ class NavBarController {
       ExpansionTileController();
   final ExpansionTileController businessExpansionTile =
       ExpansionTileController();
+  final ExpansionTileController productExpansionTile =
+      ExpansionTileController();
   final scroll = ScrollController();
 }

@@ -1,33 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AllBrandModel extends ChangeNotifier {
-  Map<String, dynamic> allBrand = {};
-  int brandCount = 0;
-  List<String> nameList = [];
-  List<String> idList = [];
-  String? brandName;
-  String? brandId;
+  List<dynamic> allBrandList = [];
+  List<String> brandNameList = [];
 
-  void getAllBrand(Map<String, dynamic> input) {
-    nameList.clear();
-    idList.clear();
-    allBrand = input;
-    brandCount = allBrand["count"];
-
-    for (var i = 0; i < allBrand["count"]; i++) {
-      nameList.add(allBrand["data"][i]["name"].toString());
-      idList.add(allBrand["data"][i]["_id"].toString());
+  void getAllBrandData(List<dynamic> list) {
+    if (allBrandList.isEmpty) {
+      allBrandList = list;
+      if (allBrandList.isNotEmpty && brandNameList.isEmpty) {
+        for (var i = 0; i < allBrandList.length; i++) {
+          brandNameList.add(allBrandList[i]["name"]);
+        }
+      }
     }
-    notifyListeners();
-  }
-
-  void chooseBrand(String name, String id) {
-    brandName = null;
-    brandId = null;
-
-    brandName = name;
-    brandId = id;
-
     notifyListeners();
   }
 }

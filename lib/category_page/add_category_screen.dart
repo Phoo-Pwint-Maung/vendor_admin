@@ -16,7 +16,6 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   final controller = AddCategoryController();
   @override
   Widget build(BuildContext context) {
-    final brandIdAndName = Provider.of<AllBrandModel>(context);
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
@@ -31,42 +30,6 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
             titleName: "Adding New Category",
           ),
           SizedBoxHeight(height: 30),
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 20,
-            ),
-            decoration: BoxDecoration(
-              color: color.secondaryColor,
-              borderRadius: BorderRadius.circular(
-                5,
-              ),
-              border: Border.all(
-                width: 1.5,
-                color: color.black,
-              ),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  "Adding Category of ",
-                  style: TextStyle(
-                    color: color.primaryColor,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBoxHeight(height: 10),
-                Text(
-                  "${brandIdAndName.brandName}",
-                  style: TextStyle(
-                    color: color.primaryColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            ),
-          ),
           NameInputBox(
             validation: (value) {
               return controller.validateCategoryName(value);

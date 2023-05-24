@@ -49,17 +49,19 @@ class _NavBarItemState extends State<NavBarItem> {
             } else if (widget.id == 4) {
               navBarModel.changePage(DrawerSection.allCategory);
             } else if (widget.id == 5) {
-              navBarModel.changePage(DrawerSection.allBrand);
+              navBarModel.changePage(DrawerSection.addCategory);
             } else if (widget.id == 6) {
               navBarModel.changePage(DrawerSection.allBusiness);
-              final allBusiness = AllBusinessController();
-              allBusiness.getAllBusiness(context);
             } else if (widget.id == 7) {
               navBarModel.changePage(DrawerSection.addBusiness);
+            } else if (widget.id == 8) {
+              navBarModel.changePage(DrawerSection.allProduct);
             } else if (widget.id == 9) {
+              navBarModel.changePage(DrawerSection.addProduct);
+            } else if (widget.id == 10) {
               // Profile Setting
               navBarModel.changePage(DrawerSection.profileSetting);
-            } else if (widget.id == 10) {
+            } else if (widget.id == 11) {
               // LogOut
               final controller = LogOutController();
               controller.logOut(context);

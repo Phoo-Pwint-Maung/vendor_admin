@@ -81,18 +81,17 @@ class _NavBarState extends State<NavBar> {
                     id: 5,
                     icon: Icons.home,
                     title: "Add Category",
-                    selected: navBarModel.currentPage ==
-                                DrawerSection.allBrand ||
-                            navBarModel.currentPage == DrawerSection.addCategory
-                        ? true
-                        : false,
+                    selected:
+                        navBarModel.currentPage == DrawerSection.addCategory
+                            ? true
+                            : false,
                   ),
                 ],
               ),
               ExpansionTile(
-                leading: Icon(Icons.card_travel),
+                leading: const Icon(Icons.card_travel),
                 controller: controller.businessExpansionTile,
-                title: Text("Business"),
+                title: const Text("Business"),
                 children: [
                   NavBarItem(
                     id: 6,
@@ -115,8 +114,33 @@ class _NavBarState extends State<NavBar> {
                   ),
                 ],
               ),
+              ExpansionTile(
+                leading: Icon(Icons.card_travel),
+                controller: controller.productExpansionTile,
+                title: Text("Product"),
+                children: [
+                  NavBarItem(
+                    id: 8,
+                    icon: Icons.home,
+                    title: "All Product",
+                    selected:
+                        navBarModel.currentPage == DrawerSection.allProduct
+                            ? true
+                            : false,
+                  ),
+                  NavBarItem(
+                    id: 9,
+                    icon: Icons.home,
+                    title: "Add Product",
+                    selected:
+                        navBarModel.currentPage == DrawerSection.addProduct
+                            ? true
+                            : false,
+                  ),
+                ],
+              ),
               NavBarItem(
-                id: 9,
+                id: 10,
                 icon: Icons.settings,
                 title: "Profile Setting",
                 selected:
@@ -125,7 +149,7 @@ class _NavBarState extends State<NavBar> {
                         : false,
               ),
               NavBarItem(
-                id: 10,
+                id: 11,
                 icon: Icons.arrow_back_ios_new,
                 title: "LogOut",
                 selected: navBarModel.currentPage == DrawerSection.logOut

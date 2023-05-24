@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
+import 'package:vendor_admin/brand_page/all_brand_model.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
 import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
@@ -22,6 +23,7 @@ class AddBrandController {
 
   Future<void> addBrand(BuildContext context) async {
     final addBrandModel = Provider.of<AddBrandModel>(context, listen: false);
+    final allBrandModel = Provider.of<AllBrandModel>(context, listen: false);
 
     // getting id and token
     List<String> listIdAndToken = idAndToken(context);
@@ -31,13 +33,14 @@ class AddBrandController {
 
     print(addBrandModel.choosedImage);
 
-    if (addBrandModel.choosedImage != null) {
-      File file = File(addBrandModel.choosedImage!.path);
+    if (addBrandModel.imageStr != null) {
+      brandImage = addBrandModel.imageStr;
+      // File file = File(addBrandModel.choosedImage!.path);
 
-      List<int> unit8 = file.readAsBytesSync();
+      // List<int> unit8 = file.readAsBytesSync();
 
-      brandImage = base64Encode(unit8);
-      print(brandImage);
+      // brandImage = base64Encode(unit8);
+      // print(brandImage);
     }
 
     final String url = "$mainUrl/brands?admin_id=$id";
@@ -57,41 +60,13 @@ class AddBrandController {
       ),
     );
 
-    print(response);
-
-    // try {
-    //     if (response.statusCode == 200 &&
-    //         response.data['error'].toString() == "false") {
-    //       final String name = response.data["data"]["name"].toString();
-    //       final String image = response.data["data"]["profile"].toString();
-
-    //       if (image != "null") {
-    //         // this is Success Image post
-    //         profileEdit.saved();
-    //       }
-
-    //       // Store New Name
-    //       final signUpData = Provider.of<SignUpData>(context, listen: false);
-    //       final signInData = Provider.of<SignInData>(context, listen: false);
-    //       signUpData.name = name;
-    //       signInData.name = name;
-    //       // Navigate to ProfileSetting page
-    //       Future.microtask(
-    //         () {
-    //           Navigator.pop(context);
-    //         },
-    //       );
-    //     } else if (response.data['message'].toString().isNotEmpty) {
-    //       signUpController.showSnackBar(
-    //         context,
-    //         response.data['message'].toString(),
-    //       );
-    //     } else if (response.statusCode == 500) {
-    //       signUpController.showSnackBar(context, "Server Error");
-    //     }
-    //   } on DioError catch (_) {
-    //     signUpController.showSnackBar(context, "Something Wrong");
-    //   }
+    try {
+      if (response.statusCode == 200 &&
+          response.data["error"].toString() == "false") {
+        print(response);
+        // allBrandModel.getAllBrandData(response.data["data"]);
+      }
+    } catch (e) {}
   }
 
   // showPreView Choosed Image
