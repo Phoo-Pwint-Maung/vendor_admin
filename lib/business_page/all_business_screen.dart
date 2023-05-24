@@ -16,6 +16,11 @@ class AllBusinessScreen extends StatefulWidget {
 
 class _AllBusinessScreenState extends State<AllBusinessScreen> {
   final allBusiness = AllBusinessController();
+  String? businessName;
+  String? businessAddress;
+  String? businessId;
+  String? mediaId;
+  String? mediaUrl;
   @override
   void initState() {
     super.initState();
@@ -27,7 +32,7 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Consumer2<AllBusinessModel, NavBarModel>(
+    return Consumer2<AllBusinessData, NavBarModel>(
         builder: (context, model, navBarModel, _) {
       return SingleChildScrollView(
         controller: allBusiness.scroll,
@@ -46,7 +51,7 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Total Businesses :  ' ${model.businessNameList.length} '",
+                      "Total Businesses :  ' ${model.allList.length} '",
                       style: TextStyle(
                         color: color.black,
                         fontSize: 18,
@@ -76,81 +81,95 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
               const SizedBoxHeight(
                 height: 30,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                controller: allBusiness.scroll,
-                itemCount: model.businessNameList.length,
-                itemBuilder: (context, index) => Card(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: color.secondaryColor,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 10,
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: screenWidth * 0.1,
-                          child: Text(
-                            "${index + 1}",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: color.white,
-                            ),
-                            textAlign: TextAlign.center,
+
+              // Show List
+              FutureBuilder(
+                future: allBusiness.getAllBusiness(context),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      controller: allBusiness.scroll,
+                      itemCount: model.allList.length,
+                      itemBuilder: (context, index) => Card(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: color.secondaryColor,
                           ),
-                        ),
-                        SizedBox(
-                          width: screenWidth * 0.2,
-                          child: Image.asset(
-                            "assets/images/purpeech.jpg",
-                            width: screenWidth * 0.23,
-                            height: 100,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 10,
                           ),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: screenWidth * 0.45,
-                              child: Text(
-                                model.businessNameList[index],
-                                style: TextStyle(
-                                  color: color.primaryColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: screenWidth * 0.1,
+                                child: Text(
+                                  "${index + 1}",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: color.white,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
-                            ),
-                            const SizedBoxHeight(
-                              height: 10,
-                            ),
-                            Text(
-                              model.businessAddressList[index],
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: color.white,
+                              SizedBox(
+                                width: screenWidth * 0.2,
+                                child: Image.asset(
+                                  "assets/images/purpeech.jpg",
+                                  width: screenWidth * 0.23,
+                                  height: 100,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        // This is Menu Btn for Edit and Delete
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: screenWidth * 0.45,
+                                    child: Text(
+                                      model.allList[index].name,
+                                      style: TextStyle(
+                                        color: color.primaryColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBoxHeight(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    model.allList[index].address,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: color.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // This is Menu Btn for Edit and Delete
 
-                        Expanded(
-                          child: AllBusinessMenuBtn(
-                            businessName: model.businessNameList[index],
+                              Expanded(
+                                child: AllBusinessMenuBtn(
+                                  businessId: model.allList[index].businessId,
+                                  businessName: model.allList[index].name,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      ),
+                    );
+                  }
+                },
+              )
             ],
           ),
         ),

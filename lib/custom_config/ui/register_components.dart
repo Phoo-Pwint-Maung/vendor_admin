@@ -98,11 +98,12 @@ class _RegisterFormfieldState extends State<RegisterFormfield> {
 class RegisterButton extends StatelessWidget {
   final void Function()? btnPressed;
   final String btnName;
-  const RegisterButton({
-    super.key,
-    required this.btnPressed,
-    required this.btnName,
-  });
+  final Color? backgroundColor;
+  const RegisterButton(
+      {super.key,
+      required this.btnPressed,
+      required this.btnName,
+      required this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,7 @@ class RegisterButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         minimumSize: Size(screenWidth * 0.8, 40),
-        backgroundColor: color.secondaryColor,
+        backgroundColor: backgroundColor,
       ),
       onPressed: btnPressed,
       child: Text(

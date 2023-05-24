@@ -8,17 +8,21 @@ import 'package:vendor_admin/home_page/home_controller.dart';
 
 class AllBusinessController {
   final scroll = ScrollController();
-  void getAllBusiness(BuildContext context) async {
+  String? id;
+  String? token;
+  Future<void> getAllBusiness(BuildContext context) async {
+    print("Start to get all business");
     // Get Id and Token From Signin or Singup
     List<String> idTokenList = idAndToken(context);
     id = idTokenList[0];
     token = idTokenList[1];
 
     final allBusinessModel =
-        Provider.of<AllBusinessModel>(context, listen: false);
+        Provider.of<AllBusinessData>(context, listen: false);
 
     // if No data in first time , get data from api
     if (allBusinessModel.allBusinessList.isEmpty) {
+      print("get");
       final url = "$mainUrl/businesses?admin_id=$id";
       final response = await dio.get(
         url,
@@ -29,11 +33,15 @@ class AllBusinessController {
           contentType: Headers.jsonContentType,
         ),
       );
+      print(id);
+      print(token);
+      print(response);
 
       try {
         if (response.statusCode == 200 &&
             response.data["error"].toString() == "false") {
           final List<dynamic> list = response.data["data"];
+          print(list);
           // Keep Data in Modle
           allBusinessModel.allBusinessData(list);
         }

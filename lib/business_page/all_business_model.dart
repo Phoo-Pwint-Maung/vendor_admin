@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
 
-class AllBusinessModel extends ChangeNotifier {
+class AllBusinessModel {
+  final String name;
+  final String address;
+  final String businessId;
+  final String mediaId;
+  final String mediaUrl;
+
+  AllBusinessModel({
+    required this.name,
+    required this.address,
+    required this.businessId,
+    required this.mediaId,
+    required this.mediaUrl,
+  });
+}
+
+class AllBusinessData extends ChangeNotifier {
   List<dynamic> allBusinessList = [];
-  List<String> businessNameList = [];
-  List<String> businessAddressList = [];
-  List<String> businessIdList = [];
-  List<String> businessMediaId = [];
-  List<String> businessMediaUrl = [];
+
+  List<AllBusinessModel> allList = [];
 
   void allBusinessData(List<dynamic> list) {
     if (allBusinessList.isEmpty) {
       allBusinessList = list;
 
-      if (allBusinessList.isNotEmpty && businessNameList.isEmpty) {
+      if (allBusinessList.isNotEmpty) {
         for (var i = 0; i < allBusinessList.length; i++) {
-          businessNameList.add(allBusinessList[i]["name"]);
-          businessAddressList.add(allBusinessList[i]["address"]);
-          businessIdList.add(allBusinessList[i]["_id"]);
-          businessMediaUrl.add(allBusinessList[i]["media"]["media_link"]);
-          businessMediaUrl.add(allBusinessList[i]["media"]["id"]);
+          allList.add(
+            AllBusinessModel(
+              name: allBusinessList[i]["name"],
+              address: allBusinessList[i]["address"],
+              businessId: allBusinessList[i]["_id"],
+              mediaId: allBusinessList[i]["media"]["id"],
+              mediaUrl: allBusinessList[i]["media"]["media_link"],
+            ),
+          );
         }
       }
     } else {

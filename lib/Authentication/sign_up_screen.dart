@@ -5,6 +5,7 @@ import 'package:vendor_admin/Authentication/sign_in_screen.dart';
 import 'package:vendor_admin/Authentication/sign_up_controller.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
+import 'package:vendor_admin/home_page/main_scaffold.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -18,6 +19,8 @@ class _SignUpState extends State<SignUp> {
   final controller = SignUpFormController();
   // color
   final color = ColorConst();
+
+  bool apiCallProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,13 +114,36 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       RegisterButton(
-                        btnPressed: () {
-                          if (controller.formKey.currentState!.validate()) {
-                            // If validation steps Success, Go to Home Page
-                            controller.register(context);
-                          }
-                        },
+                        btnPressed: apiCallProgress
+                            ? null
+                            : () {
+                                if (controller.formKey.currentState!
+                                    .validate()) {
+                                  setState(() {
+                                    apiCallProgress =
+                                        true; // Set the flag to true
+                                  });
+
+                                  controller.register(context).then((_) {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const MainScaffold(),
+                                      ),
+                                    );
+                                  }).catchError((error) {
+                                    print('API Error: $error');
+                                  }).whenComplete(() {
+                                    setState(() {
+                                      apiCallProgress =
+                                          false; // Set the flag back to false
+                                    });
+                                  });
+                                }
+                              },
                         btnName: "Register",
+                        backgroundColor:
+                            apiCallProgress ? color.grey : color.secondaryColor,
                       ),
                     ],
                   ),

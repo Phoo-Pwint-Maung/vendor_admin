@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
-import 'package:vendor_admin/home_page/main_scaffold.dart';
 
 class SignUpFormController {
   final dio = Dio();
@@ -50,16 +49,11 @@ class SignUpFormController {
           ),
         );
         // Navigate to HomeScreen
-        Future.microtask(
-          () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const MainScaffold(),
-              ),
-            );
-          },
-        );
+        // Future.microtask(
+        //   () {
+
+        //   },
+        // );
       } else if (response.data['data']['email'].toString().isNotEmpty) {
         showSnackBar(
           context,

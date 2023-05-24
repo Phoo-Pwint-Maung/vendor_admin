@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vendor_admin/business_page/all_business_model.dart';
 
 import 'package:vendor_admin/custom_config/util/image_base64.dart';
 
@@ -13,21 +14,10 @@ class AddBusinessModel extends ChangeNotifier {
   String? mediaId;
   String? mediaUrl;
 
-  void getAddBusinessData({
-    required String businessName,
-    required String businessAddress,
-    required String id,
-    required String mediaId,
-    required String mediaUrl,
-  }) {
-    if (name != null) {
-      id = id;
-      name = businessName;
-      address = businessAddress;
-      mediaId = mediaId;
-      mediaUrl = mediaUrl;
-    }
+  AllBusinessModel? addNewBusiness;
 
+  void getAddBusinessData(AllBusinessModel model) {
+    addNewBusiness = model;
     notifyListeners();
   }
 

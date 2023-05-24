@@ -10,6 +10,8 @@ class AlertBox extends StatefulWidget {
   final Color? firstBtnColor;
   final Color? secondBtnColor;
   final Color? backgroundColor;
+  final void Function()? firstBtnFun;
+  final void Function()? secondBtnFun;
 
   const AlertBox({
     super.key,
@@ -21,6 +23,8 @@ class AlertBox extends StatefulWidget {
     required this.firstBtnColor,
     required this.secondBtnColor,
     required this.backgroundColor,
+    required this.firstBtnFun,
+    required this.secondBtnFun,
   });
 
   @override
@@ -48,9 +52,7 @@ class _AlertBoxState extends State<AlertBox> {
       ),
       actions: [
         TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: widget.firstBtnFun,
           child: Text(
             widget.firstBtnName,
             style: TextStyle(
@@ -60,9 +62,7 @@ class _AlertBoxState extends State<AlertBox> {
           ),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: widget.secondBtnFun,
           child: Text(
             widget.secondBtnName,
             style: TextStyle(

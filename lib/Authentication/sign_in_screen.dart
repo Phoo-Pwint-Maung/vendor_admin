@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vendor_admin/Authentication/sign_in_controller.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
+import 'package:vendor_admin/home_page/main_scaffold.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -12,11 +13,11 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final formKey = GlobalKey<FormState>();
   // Controller TextEditingController and ScrollController
   final controller = SignInFormController();
   // color
   final color = ColorConst();
+  bool apiCallProgress = false;
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -58,7 +59,7 @@ class _SignInState extends State<SignIn> {
                   child: Column(
                     children: [
                       Form(
-                        key: formKey,
+                        key: controller.formKey,
                         child: Column(
                           children: [
                             RegisterFormfield(
@@ -87,14 +88,37 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       RegisterButton(
-                        btnName: "Sign In",
-                        btnPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            // If validation steps Success, Go to Home Page
-                            controller.login(context);
-                          }
-                        },
-                      )
+                        btnPressed: apiCallProgress
+                            ? null
+                            : () {
+                                if (controller.formKey.currentState!
+                                    .validate()) {
+                                  setState(() {
+                                    apiCallProgress =
+                                        true; // Set the flag to true
+                                  });
+
+                                  controller.login(context).then((_) {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const MainScaffold(),
+                                      ),
+                                    );
+                                  }).catchError((error) {
+                                    print('API Error: $error');
+                                  }).whenComplete(() {
+                                    setState(() {
+                                      apiCallProgress =
+                                          false; // Set the flag back to false
+                                    });
+                                  });
+                                }
+                              },
+                        btnName: "Register",
+                        backgroundColor:
+                            apiCallProgress ? color.grey : color.secondaryColor,
+                      ),
                     ],
                   ),
                 ),

@@ -18,13 +18,9 @@ class AddBusinessController {
     final addBusinessModel =
         Provider.of<AddBusinessModel>(context, listen: false);
     final allBusinessModel =
-        Provider.of<AllBusinessModel>(context, listen: false);
-    print(allBusinessModel.businessNameList);
-    addBusinessModel.name == null;
-    addBusinessModel.address == null;
-    addBusinessModel.id == null;
-    addBusinessModel.mediaId == null;
-    addBusinessModel.mediaUrl == null;
+        Provider.of<AllBusinessData>(context, listen: false);
+
+    addBusinessModel.addNewBusiness == null;
 
     // Get Id and Token From Signin or Singup
     List<String> idTokenList = idAndToken(context);
@@ -49,7 +45,6 @@ class AddBusinessController {
           contentType: Headers.jsonContentType,
         ),
       );
-      print(response);
 
       try {
         if (response.statusCode == 200 &&
@@ -60,18 +55,16 @@ class AddBusinessController {
           final mediaId = response.data["data"]["media"]["id"];
           final mediaUrl = response.data["data"]["media"]["media_link"];
 
-          addBusinessModel.getAddBusinessData(
-            businessName: name,
-            businessAddress: address,
-            id: businessId,
-            mediaId: mediaId,
-            mediaUrl: mediaUrl,
-          );
-          allBusinessModel.businessIdList.add(businessId);
-          allBusinessModel.businessNameList.add(name);
-          allBusinessModel.businessAddressList.add(address);
-          allBusinessModel.businessMediaId.add(mediaId);
-          allBusinessModel.businessMediaUrl.add(mediaUrl);
+          final model = AllBusinessModel(
+              name: name,
+              address: address,
+              businessId: businessId,
+              mediaId: mediaId,
+              mediaUrl: mediaUrl);
+
+          addBusinessModel.getAddBusinessData(model);
+
+          allBusinessModel.allList.add(model);
         }
       } catch (e) {}
     }

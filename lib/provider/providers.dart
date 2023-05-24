@@ -33,7 +33,7 @@ final List<SingleChildWidget> provider = [
     create: (context) => AddBrandModel(),
   ),
   ChangeNotifierProvider(
-    create: (context) => AllBusinessModel(),
+    create: (context) => AllBusinessData(),
   ),
   ChangeNotifierProvider(
     create: (context) => AddBusinessModel(),

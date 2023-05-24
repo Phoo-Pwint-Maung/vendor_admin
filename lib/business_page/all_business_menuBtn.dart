@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:vendor_admin/business_page/delete_business/delete_business_controller.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/alert_box.dart';
 
 class AllBusinessMenuBtn extends StatefulWidget {
   final String businessName;
+  final String businessId;
   const AllBusinessMenuBtn({
     super.key,
     required this.businessName,
+    required this.businessId,
   });
 
   @override
@@ -16,6 +19,7 @@ class AllBusinessMenuBtn extends StatefulWidget {
 class _AllBusinessMenuBtnState extends State<AllBusinessMenuBtn> {
   @override
   Widget build(BuildContext context) {
+    final businessId = widget.businessId;
     return PopupMenuButton(
       icon: const Icon(Icons.menu),
       itemBuilder: (context) {
@@ -44,6 +48,10 @@ class _AllBusinessMenuBtnState extends State<AllBusinessMenuBtn> {
                   firstBtnColor: color.ternaryColor,
                   secondBtnColor: color.primaryColor,
                   backgroundColor: color.secondaryColor,
+                  // Cancel button
+                  firstBtnFun: () {},
+                  // Edit button
+                  secondBtnFun: () {},
                 );
               });
         } else if (value == 'delete') {
@@ -59,6 +67,24 @@ class _AllBusinessMenuBtnState extends State<AllBusinessMenuBtn> {
                   firstBtnColor: color.white,
                   secondBtnColor: color.red,
                   backgroundColor: color.black,
+                  // Cancel Button
+                  firstBtnFun: () {},
+                  // Delete Button
+                  secondBtnFun: () {
+                    print(businessId);
+                    final deleteController = DeleteBusinessController();
+                    deleteController
+                        .deleteBusiness(context, businessId)
+                        .then((_) {
+                      Future.delayed(
+                          const Duration(
+                            seconds: 1,
+                          ), () {
+                        print("delete done");
+                        Navigator.pop(context);
+                      });
+                    });
+                  },
                 );
               });
         }

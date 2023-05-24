@@ -13,8 +13,10 @@ class SignInFormController {
   final signUpController = SignUpFormController();
 
   final scroll = ScrollController();
+  final formKey = GlobalKey<FormState>();
 
   Future<void> login(BuildContext context) async {
+    print("login");
     const String url = "$mainUrl/login";
     final body = {
       "email": email.text,
@@ -28,6 +30,8 @@ class SignInFormController {
         contentType: Headers.jsonContentType,
       ),
     );
+
+    print(response);
 
     try {
       if (response.statusCode == 200 &&
@@ -47,16 +51,16 @@ class SignInFormController {
           ),
         );
         // Navigate to HomeScreen
-        Future.microtask(
-          () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const MainScaffold(),
-              ),
-            );
-          },
-        );
+        // Future.microtask(
+        //   () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (_) => const MainScaffold(),
+        //       ),
+        //     );
+        //   },
+        // );
       } else if (response.data['message'].toString().isNotEmpty) {
         signUpController.showSnackBar(
           context,
