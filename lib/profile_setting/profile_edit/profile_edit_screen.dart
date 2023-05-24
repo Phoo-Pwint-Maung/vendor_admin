@@ -42,11 +42,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       backgroundColor: color.ternaryColor,
       appBar: AppBar(
         leading: GestureDetector(
-          child: Icon(Icons.arrow_back_ios_new_sharp),
+          child: const Icon(Icons.arrow_back_ios_new_sharp),
           onTap: () => Navigator.pop(context),
         ),
         backgroundColor: color.secondaryColor,
-        title: Text("Profile Edit"),
+        title: const Text("Profile Edit"),
       ),
       body: SingleChildScrollView(
         controller: ScrollController(),
@@ -86,12 +86,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 onPressed: () {
                   profileSetting.chooseImage();
                 },
-                child: Text("choose image"),
+                child: const Text("choose image"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               SizedBox(
+                width: screenWidth * 0.8,
                 child: Form(
                   key: controller.formKey,
                   child: TextFormField(
@@ -101,9 +102,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     controller: controller.name,
                   ),
                 ),
-                width: screenWidth * 0.8,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               ElevatedButton(
@@ -120,7 +120,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     controller.savedChange(context);
                   }
                 },
-                child: Text("Save Change"),
+                child: const Text("Save Change"),
               )
             ],
           ),

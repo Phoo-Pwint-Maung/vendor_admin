@@ -17,6 +17,7 @@ class _LeftTextState extends State<LeftText> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      width: widget.width,
       child: Text(
         widget.text,
         style: TextStyle(
@@ -25,7 +26,6 @@ class _LeftTextState extends State<LeftText> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      width: widget.width,
     );
   }
 }
@@ -64,7 +64,7 @@ class _ProfileDataBoxState extends State<ProfileDataBox> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       width: screenWidth,
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 10,
       ),

@@ -18,7 +18,7 @@ class ProfileEditModel extends ChangeNotifier {
       editImage = imageChoose;
       List<int> singleImageBytes = await imageChoose.readAsBytes();
       String singleImageBase =
-          'data:image/png;base64,' + base64Encode(singleImageBytes);
+          'data:image/png;base64,${base64Encode(singleImageBytes)}';
 
       imageStr = singleImageBase;
     }

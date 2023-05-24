@@ -11,7 +11,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      child: const Column(
         children: [
           Text("All Category"),
         ],

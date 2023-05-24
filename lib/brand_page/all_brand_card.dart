@@ -53,7 +53,7 @@ class _AllBrandCardState extends State<AllBrandCard> {
             child: Row(
               children: [
                 TextButton(
-                  style: ButtonStyle(),
+                  style: const ButtonStyle(),
                   onPressed: () {
                     // Perform some action
                   },

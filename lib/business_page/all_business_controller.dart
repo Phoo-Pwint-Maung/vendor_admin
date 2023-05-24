@@ -7,6 +7,7 @@ import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 import 'package:vendor_admin/home_page/home_controller.dart';
 
 class AllBusinessController {
+  final scroll = ScrollController();
   void getAllBusiness(BuildContext context) async {
     // Get Id and Token From Signin or Singup
     List<String> idTokenList = idAndToken(context);
@@ -32,10 +33,9 @@ class AllBusinessController {
       try {
         if (response.statusCode == 200 &&
             response.data["error"].toString() == "false") {
-          final int count = int.parse(response.data["count"].toString());
           final List<dynamic> list = response.data["data"];
           // Keep Data in Modle
-          allBusinessModel.allBusinessData(count, list);
+          allBusinessModel.allBusinessData(list);
         }
       } catch (e) {}
     } else {

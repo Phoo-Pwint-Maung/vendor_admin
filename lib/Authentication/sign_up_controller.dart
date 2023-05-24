@@ -17,7 +17,7 @@ class SignUpFormController {
   final formKey = GlobalKey<FormState>();
 
   Future<void> register(BuildContext context) async {
-    final String url = "$mainUrl/register";
+    const String url = "$mainUrl/register";
     final body = {
       "name": name.text,
       "email": email.text,

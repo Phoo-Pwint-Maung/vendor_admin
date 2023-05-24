@@ -9,7 +9,7 @@ class ColorConst {
   final white = Colors.white;
   final black = Colors.black;
   final grey = Colors.grey;
-  final red = Color.fromARGB(255, 255, 0, 0);
+  final red = const Color.fromARGB(255, 255, 0, 0);
 }
 
 final color = ColorConst();

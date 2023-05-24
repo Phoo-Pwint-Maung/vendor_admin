@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/src/response.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
 // This is Get Api , default

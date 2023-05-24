@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_controller.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
+import 'package:vendor_admin/custom_config/util/image_base64.dart';
 import 'package:vendor_admin/profile_setting/profile_setting_component.dart';
 
 class AddBrandScreen extends StatefulWidget {
@@ -38,21 +38,24 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
           children: [
             const MainTitle(titleName: "Adding New Brand"),
             const SizedBoxHeight(height: 50),
-            NameInputBox(
-              validation: (value) {
-                return controller.validateBrandName(value);
-              },
-              formKey: controller.formKey,
-              textEditingController: controller.brandName,
-              boxTitle: "Brand Name :",
+            Form(
+              key: controller.formKey,
+              child: NameInputBox(
+                validation: (value) {
+                  return controller.validateBrandName(value);
+                },
+                textEditingController: controller.brandName,
+                boxTitle: "Name :",
+              ),
             ),
             const SizedBoxHeight(height: 30),
+            // Image choosing row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
-                    controller.showPreviewImage(context),
+                    showPreviewImage(context, model, model.choosedImage),
                     if (isClickedAdd && model.choosedImage == null)
                       controller.showNoImageError(context),
                   ],

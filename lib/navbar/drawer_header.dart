@@ -28,14 +28,14 @@ class _NavBarHeaderState extends State<NavBarHeader> {
       ),
       accountName: Text(
         widget.userName,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),
       accountEmail: Text(
         widget.userEmail,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 12,
         ),
       ),

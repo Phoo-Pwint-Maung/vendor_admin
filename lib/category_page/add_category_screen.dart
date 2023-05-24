@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:vendor_admin/brand_page/all_brand_model.dart';
 import 'package:vendor_admin/category_page/add_category_controller.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
@@ -29,14 +27,16 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
           const MainTitle(
             titleName: "Adding New Category",
           ),
-          SizedBoxHeight(height: 30),
-          NameInputBox(
-            validation: (value) {
-              return controller.validateCategoryName(value);
-            },
-            formKey: controller.formKey,
-            textEditingController: controller.categoryName,
-            boxTitle: "Category Name :",
+          const SizedBoxHeight(height: 30),
+          Form(
+            key: controller.formKey,
+            child: NameInputBox(
+              validation: (value) {
+                return controller.validateCategoryName(value);
+              },
+              textEditingController: controller.categoryName,
+              boxTitle: "Name :",
+            ),
           ),
         ],
       ),

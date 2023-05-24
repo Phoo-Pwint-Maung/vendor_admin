@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/all_brand_screen.dart';
 import 'package:vendor_admin/brand_page/add_brand_screen.dart';
@@ -70,7 +69,7 @@ class _MainScaffoldState extends State<MainScaffold> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: color.ternaryColor,
-        drawer: NavBar(),
+        drawer: const NavBar(),
         appBar: AppBar(
           backgroundColor: color.secondaryColor,
           title: Text(title),

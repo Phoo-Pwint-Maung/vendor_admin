@@ -15,7 +15,7 @@ class SignInFormController {
   final scroll = ScrollController();
 
   Future<void> login(BuildContext context) async {
-    final String url = "$mainUrl/login";
+    const String url = "$mainUrl/login";
     final body = {
       "email": email.text,
       "password": password.text,

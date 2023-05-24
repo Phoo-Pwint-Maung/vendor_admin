@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:vendor_admin/Authentication/sign_in_controller.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';

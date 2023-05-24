@@ -58,7 +58,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBoxHeight(height: 50),
+                    const SizedBoxHeight(height: 50),
                     PassFormField(
                       textEditingController: controller.oldPassword,
                       hintText: "Old Password",
@@ -66,7 +66,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                         return signUpController.validatePassword(value);
                       },
                     ),
-                    SizedBoxHeight(height: 30),
+                    const SizedBoxHeight(height: 30),
                     PassFormField(
                       textEditingController: controller.newPassword,
                       hintText: "New Password",
@@ -74,7 +74,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                         return signUpController.validatePassword(value);
                       },
                     ),
-                    SizedBoxHeight(height: 30),
+                    const SizedBoxHeight(height: 30),
                     PassFormField(
                       textEditingController: controller.newPasswordComfirmation,
                       hintText: "New Password",
@@ -85,7 +85,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                   ],
                 ),
               ),
-              SizedBoxHeight(height: 20),
+              const SizedBoxHeight(height: 20),
               ProfileSettingBtn(
                 btnName: "Change Password",
                 btnFunction: () {
@@ -95,10 +95,10 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                   }
                 },
               ),
-              SizedBoxHeight(height: 40),
+              const SizedBoxHeight(height: 40),
               // Error Box
               if (passError.passwordError.isNotEmpty)
-                Container(
+                SizedBox(
                   width: screenWidth * 0.8,
                   child: Column(
                     children: [
@@ -106,7 +106,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                         "* Follow The Rule *",
                         style: TextStyle(color: color.red, fontSize: 18),
                       ),
-                      SizedBoxHeight(height: 20),
+                      const SizedBoxHeight(height: 20),
                       controller.errorBox(context)
                     ],
                   ),

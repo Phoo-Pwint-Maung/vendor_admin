@@ -57,8 +57,8 @@ class _AllBusinessMenuBtnState extends State<AllBusinessMenuBtn> {
                   secondBtnName: "Delete",
                   contentColor: color.white,
                   firstBtnColor: color.white,
-                  secondBtnColor: color.black,
-                  backgroundColor: color.red,
+                  secondBtnColor: color.red,
+                  backgroundColor: color.black,
                 );
               });
         }

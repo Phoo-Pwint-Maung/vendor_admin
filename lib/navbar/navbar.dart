@@ -41,9 +41,9 @@ class _NavBarState extends State<NavBar> {
                     : false,
               ),
               ExpansionTile(
-                leading: Icon(Icons.card_travel),
+                leading: const Icon(Icons.card_travel),
                 controller: controller.brandExpansionTile,
-                title: Text("Brands"),
+                title: const Text("Brands"),
                 children: [
                   NavBarItem(
                     id: 2,
@@ -64,9 +64,9 @@ class _NavBarState extends State<NavBar> {
                 ],
               ),
               ExpansionTile(
-                leading: Icon(Icons.card_travel),
+                leading: const Icon(Icons.card_travel),
                 controller: controller.categoryExpansionTile,
-                title: Text("Categories"),
+                title: const Text("Categories"),
                 children: [
                   NavBarItem(
                     id: 4,
@@ -115,9 +115,9 @@ class _NavBarState extends State<NavBar> {
                 ],
               ),
               ExpansionTile(
-                leading: Icon(Icons.card_travel),
+                leading: const Icon(Icons.card_travel),
                 controller: controller.productExpansionTile,
-                title: Text("Product"),
+                title: const Text("Product"),
                 children: [
                   NavBarItem(
                     id: 8,

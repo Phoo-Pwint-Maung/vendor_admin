@@ -15,10 +15,11 @@ class AllBusinessScreen extends StatefulWidget {
 }
 
 class _AllBusinessScreenState extends State<AllBusinessScreen> {
+  final allBusiness = AllBusinessController();
   @override
   void initState() {
     super.initState();
-    final allBusiness = AllBusinessController();
+
     allBusiness.getAllBusiness(context);
   }
 
@@ -28,126 +29,130 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
 
     return Consumer2<AllBusinessModel, NavBarModel>(
         builder: (context, model, navBarModel, _) {
-      return Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-        ),
-        width: screenWidth,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Total Businesses :  ' ${model.allBusinessCount} '",
-                    style: TextStyle(
-                      color: color.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: color.secondaryColor,
-                      ),
-                    ),
-                    onPressed: () {
-                      navBarModel.changePage(DrawerSection.addBusiness);
-                    },
-                    child: Text(
-                      "Add +",
+      return SingleChildScrollView(
+        controller: allBusiness.scroll,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+          ),
+          width: screenWidth,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total Businesses :  ' ${model.businessNameList.length} '",
                       style: TextStyle(
+                        color: color.black,
                         fontSize: 18,
-                        color: color.secondaryColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ],
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: color.secondaryColor,
+                        ),
+                      ),
+                      onPressed: () {
+                        navBarModel.changePage(DrawerSection.addBusiness);
+                      },
+                      child: Text(
+                        "Add +",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: color.secondaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBoxHeight(
-              height: 30,
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: model.allBusinessList.length,
-              itemBuilder: (context, index) => Card(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: color.secondaryColor,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 10,
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: screenWidth * 0.05,
-                        child: Text(
-                          "${index + 1}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: color.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: screenWidth * 0.23,
-                        child: Image.asset(
-                          "assets/images/purpeech.jpg",
-                          width: screenWidth * 0.23,
-                          height: 100,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: screenWidth * 0.45,
-                            child: Text(
-                              model.allBusinessList[index]["name"],
-                              style: TextStyle(
-                                color: color.primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          const SizedBoxHeight(
-                            height: 10,
-                          ),
-                          Text(
-                            model.allBusinessList[index]["address"],
+              const SizedBoxHeight(
+                height: 30,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                controller: allBusiness.scroll,
+                itemCount: model.businessNameList.length,
+                itemBuilder: (context, index) => Card(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: color.secondaryColor,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: screenWidth * 0.1,
+                          child: Text(
+                            "${index + 1}",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 12,
                               color: color.white,
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                        ],
-                      ),
-                      // This is Menu Btn for Edit and Delete
-                      Expanded(
-                        child: AllBusinessMenuBtn(
-                          businessName:
-                              "${model.allBusinessList[index]["name"]}",
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: screenWidth * 0.2,
+                          child: Image.asset(
+                            "assets/images/purpeech.jpg",
+                            width: screenWidth * 0.23,
+                            height: 100,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: screenWidth * 0.45,
+                              child: Text(
+                                model.businessNameList[index],
+                                style: TextStyle(
+                                  color: color.primaryColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBoxHeight(
+                              height: 10,
+                            ),
+                            Text(
+                              model.businessAddressList[index],
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: color.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // This is Menu Btn for Edit and Delete
+
+                        Expanded(
+                          child: AllBusinessMenuBtn(
+                            businessName: model.businessNameList[index],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });

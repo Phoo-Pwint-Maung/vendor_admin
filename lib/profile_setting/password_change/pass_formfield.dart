@@ -18,6 +18,7 @@ class PassFormField extends StatelessWidget {
     // width
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
+      width: screenWidth * 0.8,
       child: TextFormField(
         controller: textEditingController,
         validator: validate,
@@ -41,7 +42,6 @@ class PassFormField extends StatelessWidget {
           ),
         ),
       ),
-      width: screenWidth * 0.8,
     );
   }
 }

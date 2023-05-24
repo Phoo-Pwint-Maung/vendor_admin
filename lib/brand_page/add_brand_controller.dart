@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
-import 'package:vendor_admin/brand_page/all_brand_model.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
 import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
@@ -23,7 +20,6 @@ class AddBrandController {
 
   Future<void> addBrand(BuildContext context) async {
     final addBrandModel = Provider.of<AddBrandModel>(context, listen: false);
-    final allBrandModel = Provider.of<AllBrandModel>(context, listen: false);
 
     // getting id and token
     List<String> listIdAndToken = idAndToken(context);
@@ -69,29 +65,6 @@ class AddBrandController {
     } catch (e) {}
   }
 
-  // showPreView Choosed Image
-  Widget showPreviewImage(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final addBrandModel = Provider.of<AddBrandModel>(context);
-    return addBrandModel.choosedImage == null
-        ? Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-            ),
-            width: screenWidth * 0.45,
-            child: Image.asset("assets/images/brandImage.png"),
-          )
-        : Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-            ),
-            width: screenWidth * 0.45,
-            child: Image.file(
-              File(addBrandModel.choosedImage!.path),
-            ),
-          );
-  }
-
   // Brand Name Validation
   String? validateBrandName(String? input) {
     if (input!.isEmpty) {
@@ -104,7 +77,7 @@ class AddBrandController {
     final color = ColorConst();
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Container(
+    return SizedBox(
       width: screenWidth * 0.4,
       child: Text(
         "*Choose Image*",
