@@ -44,4 +44,20 @@ class AllBusinessData extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void deleteBusiness(String id) {
+    allList.removeWhere((element) => element.businessId == id);
+    notifyListeners();
+  }
+
+  void editBusiness(String id, AllBusinessModel model) {
+    List<AllBusinessModel> selectedItem =
+        allList.where((element) => element.businessId == id).toList();
+    if (selectedItem.isNotEmpty) {
+      int index = allList.indexOf(selectedItem.first);
+      allList[index] = model;
+    }
+
+    notifyListeners();
+  }
 }

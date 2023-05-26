@@ -15,13 +15,14 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
-  XFile? image;
   final ImagePicker picker = ImagePicker();
 
   // color
   final color = ColorConst();
 
   final controller = ProfileEditController();
+
+  bool isApiLoading = false;
 
   @override
   void initState() {
@@ -58,13 +59,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           child: Column(
             children: [
               profileSetting.editImage == null
-                  ? profileSetting.image != null
+                  ? profileSetting.newImage != ""
                       ? CircleAvatar(
                           minRadius: screenWidth * 0.2,
-                          backgroundImage: Image.file(
-                            File(profileSetting.image!.path),
-                            // width: 150,
-                            fit: BoxFit.contain,
+                          backgroundImage: Image.network(
+                            profileSetting.newImage,
                           ).image,
                         )
                       : CircleAvatar(
@@ -83,10 +82,24 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       ).image,
                     ),
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: isApiLoading
+                      ? MaterialStateProperty.all<Color>(
+                          color.grey,
+                        )
+                      : MaterialStateProperty.all<Color>(
+                          color.secondaryColor,
+                        ),
+                ),
                 onPressed: () {
                   profileSetting.chooseImage();
                 },
-                child: const Text("choose image"),
+                child: Text(
+                  "choose image",
+                  style: TextStyle(
+                    color: color.primaryColor,
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 40,
@@ -108,16 +121,25 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    color.secondaryColor,
-                  ),
+                  backgroundColor: isApiLoading
+                      ? MaterialStateProperty.all<Color>(
+                          color.grey,
+                        )
+                      : MaterialStateProperty.all<Color>(
+                          color.secondaryColor,
+                        ),
                 ),
                 onPressed: () {
-                  profileSetting.isSaved = true;
-                  profileSetting.saved();
                   if (controller.formKey.currentState!.validate()) {
+                    setState(() {
+                      isApiLoading = true; // Set the flag to true
+                    });
                     // If validation steps Success, Go to Home Page
-                    controller.savedChange(context);
+                    controller.savedChange(context).whenComplete(() {
+                      setState(() {
+                        isApiLoading = false;
+                      });
+                    });
                   }
                 },
                 child: const Text("Save Change"),

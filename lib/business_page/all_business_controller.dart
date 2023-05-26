@@ -11,17 +11,17 @@ class AllBusinessController {
   String? id;
   String? token;
   Future<void> getAllBusiness(BuildContext context) async {
-    print("Start to get all business");
-    // Get Id and Token From Signin or Singup
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
-
     final allBusinessModel =
         Provider.of<AllBusinessData>(context, listen: false);
-
-    // if No data in first time , get data from api
     if (allBusinessModel.allBusinessList.isEmpty) {
+      print("Start to get all business");
+      // Get Id and Token From Signin or Singup
+      List<String> idTokenList = idAndToken(context);
+      id = idTokenList[0];
+      token = idTokenList[1];
+
+      // if No data in first time , get data from api
+
       print("get");
       final url = "$mainUrl/businesses?admin_id=$id";
       final response = await dio.get(
@@ -42,12 +42,15 @@ class AllBusinessController {
             response.data["error"].toString() == "false") {
           final List<dynamic> list = response.data["data"];
           print(list);
+          if (response.data["count"].toString() == "0") {
+            print("No Business");
+          }
           // Keep Data in Modle
           allBusinessModel.allBusinessData(list);
         }
       } catch (e) {}
     } else {
-      return;
+      print("no api call");
     }
   }
 }

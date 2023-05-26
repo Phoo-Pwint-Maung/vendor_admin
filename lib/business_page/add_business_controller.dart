@@ -49,18 +49,14 @@ class AddBusinessController {
       try {
         if (response.statusCode == 200 &&
             response.data["error"].toString() == "false") {
-          final name = response.data["data"]["name"];
-          final address = response.data["data"]["address"];
-          final businessId = response.data["data"]["_id"];
-          final mediaId = response.data["data"]["media"]["id"];
-          final mediaUrl = response.data["data"]["media"]["media_link"];
-
-          final model = AllBusinessModel(
-              name: name,
-              address: address,
-              businessId: businessId,
-              mediaId: mediaId,
-              mediaUrl: mediaUrl);
+          final returnList = response.data["data"];
+          AllBusinessModel model = AllBusinessModel(
+            name: returnList["name"],
+            address: returnList["address"],
+            businessId: returnList["_id"],
+            mediaId: returnList["media"]["id"],
+            mediaUrl: returnList["media"]["media_link"],
+          );
 
           addBusinessModel.getAddBusinessData(model);
 

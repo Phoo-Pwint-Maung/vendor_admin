@@ -51,16 +51,16 @@ class SignInFormController {
           ),
         );
         // Navigate to HomeScreen
-        // Future.microtask(
-        //   () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (_) => const MainScaffold(),
-        //       ),
-        //     );
-        //   },
-        // );
+        Future.microtask(
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const MainScaffold(),
+              ),
+            );
+          },
+        );
       } else if (response.data['message'].toString().isNotEmpty) {
         signUpController.showSnackBar(
           context,

@@ -63,11 +63,7 @@ class _AddBusinessScreenState extends State<AddBusinessScreen> {
                       children: [
                         Column(
                           children: [
-                            showPreviewImage(
-                              context,
-                              model,
-                              model.choosedImage,
-                            )
+                            showPreviewImage(context, model, model.choosedImage)
                           ],
                         ),
                         ElevatedButton(

@@ -31,16 +31,7 @@ class ProfileEditController {
       List<String> idTokenList = idAndToken(context);
       id = idTokenList[0];
       token = idTokenList[1];
-      // Get Id and Token
 
-      // if (profileEdit.editImage != null) {
-      //   File file = File(profileEdit.editImage!.path);
-
-      //   List<int> unit8 = file.readAsBytesSync();
-
-      //   profile = base64Encode(unit8);
-
-      // }
       if (profileEdit.imageStr != null) {
         profile = profileEdit.imageStr;
         print(profile);
@@ -73,7 +64,7 @@ class ProfileEditController {
 
           if (image != "null") {
             // this is Success Image post
-            profileEdit.saved();
+            profileEdit.saved(image);
           }
 
           // Store New Name

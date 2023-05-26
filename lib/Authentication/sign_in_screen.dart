@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:vendor_admin/Authentication/sign_in_controller.dart';
 import 'package:vendor_admin/custom_config/ui/register_components.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
-import 'package:vendor_admin/home_page/main_scaffold.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -98,16 +97,7 @@ class _SignInState extends State<SignIn> {
                                         true; // Set the flag to true
                                   });
 
-                                  controller.login(context).then((_) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => const MainScaffold(),
-                                      ),
-                                    );
-                                  }).catchError((error) {
-                                    print('API Error: $error');
-                                  }).whenComplete(() {
+                                  controller.login(context).whenComplete(() {
                                     setState(() {
                                       apiCallProgress =
                                           false; // Set the flag back to false

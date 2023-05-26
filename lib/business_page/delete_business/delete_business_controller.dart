@@ -9,8 +9,10 @@ import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 class DeleteBusinessController {
   String? adminId;
   String? token;
+
   Future<void> deleteBusiness(BuildContext context, String id) async {
-    final allBusinessModel = Provider.of<AllBusinessData>(context);
+    final allBusinessModel =
+        Provider.of<AllBusinessData>(context, listen: false);
 
     // Get Id and Token From Signin or Singup
     List<String> idTokenList = idAndToken(context);
@@ -34,8 +36,7 @@ class DeleteBusinessController {
     try {
       if (response.statusCode == 200 &&
           response.data["error"].toString() == "false") {
-        allBusinessModel.allList
-            .removeWhere((element) => element.businessId == businessId);
+        allBusinessModel.deleteBusiness(businessId);
       }
     } catch (e) {}
 

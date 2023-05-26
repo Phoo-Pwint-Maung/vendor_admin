@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
@@ -49,7 +47,7 @@ class ProfileSettingController {
     // width
     double screenWidth = MediaQuery.of(context).size.width;
     final profileEditModel = Provider.of<ProfileEditModel>(context);
-    return profileEditModel.image == null
+    return profileEditModel.newImage.isEmpty
         ? CircleAvatar(
             minRadius: screenWidth * 0.2,
             backgroundImage: Image.asset(
@@ -59,10 +57,8 @@ class ProfileSettingController {
           )
         : CircleAvatar(
             maxRadius: screenWidth * 0.2,
-            backgroundImage: Image.file(
-              File(profileEditModel.image!.path),
-              // width: 150,
-              fit: BoxFit.contain,
+            backgroundImage: Image.network(
+              profileEditModel.newImage,
             ).image,
           );
   }

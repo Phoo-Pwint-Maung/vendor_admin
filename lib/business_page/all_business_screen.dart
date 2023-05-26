@@ -21,12 +21,6 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
   String? businessId;
   String? mediaId;
   String? mediaUrl;
-  @override
-  void initState() {
-    super.initState();
-
-    allBusiness.getAllBusiness(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +113,8 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
                               ),
                               SizedBox(
                                 width: screenWidth * 0.2,
-                                child: Image.asset(
-                                  "assets/images/purpeech.jpg",
+                                child: Image.network(
+                                  model.allList[index].mediaUrl,
                                   width: screenWidth * 0.23,
                                   height: 100,
                                 ),

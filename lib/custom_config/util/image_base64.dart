@@ -12,7 +12,11 @@ Future<XFile?> imageBase64() async {
 }
 
 // showPreView Choosed Image
-Widget showPreviewImage(BuildContext context, dynamic model, XFile? image) {
+Widget showPreviewImage(
+  BuildContext context,
+  dynamic model,
+  XFile? image,
+) {
   final screenWidth = MediaQuery.of(context).size.width;
 
   return image == null
@@ -21,7 +25,7 @@ Widget showPreviewImage(BuildContext context, dynamic model, XFile? image) {
             vertical: 20,
           ),
           width: screenWidth * 0.45,
-          child: Image.asset("assets/images/brandImage.png"),
+          child: Image.asset("assets/images/purpeech.jpg"),
         )
       : Container(
           padding: const EdgeInsets.symmetric(
@@ -30,6 +34,39 @@ Widget showPreviewImage(BuildContext context, dynamic model, XFile? image) {
           width: screenWidth * 0.45,
           child: Image.file(
             File(image.path),
+          ),
+        );
+}
+
+// showPreView Choosed Image
+Widget showPreviewImageUpdate(
+  BuildContext context,
+  dynamic model,
+  XFile? image,
+  String selectedUrl,
+  bool isSelectImage,
+) {
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  return isSelectImage && image != null
+      ? Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+          ),
+          width: screenWidth * 0.45,
+          child: Image.file(
+            File(image.path),
+          ),
+        )
+      : Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+          ),
+          width: screenWidth * 0.45,
+          child: Image.network(
+            selectedUrl,
+            width: screenWidth * 0.23,
+            height: 100,
           ),
         );
 }

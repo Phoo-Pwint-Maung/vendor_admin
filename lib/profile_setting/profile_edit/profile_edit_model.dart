@@ -7,7 +7,7 @@ class ProfileEditModel extends ChangeNotifier {
   XFile? image;
   XFile? editImage;
   String? imageStr;
-  bool isSaved = false;
+  String newImage = "";
 
   final ImagePicker picker = ImagePicker();
 
@@ -26,10 +26,8 @@ class ProfileEditModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saved() {
-    if (isSaved && editImage != null) {
-      image = editImage;
-    }
+  void saved(String str) {
+    newImage = str;
     notifyListeners();
   }
 }

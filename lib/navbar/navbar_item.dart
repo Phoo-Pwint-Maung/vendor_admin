@@ -39,6 +39,7 @@ class _NavBarItemState extends State<NavBarItem> {
             ),
           ),
           onTap: () {
+            print("selecting");
             if (widget.id == 1) {
               navBarModel.changePage(DrawerSection.home);
             } else if (widget.id == 2) {

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
@@ -39,7 +37,7 @@ class _NavBarHeaderState extends State<NavBarHeader> {
           fontSize: 12,
         ),
       ),
-      currentAccountPicture: profileSetting.image == null
+      currentAccountPicture: profileSetting.newImage.isEmpty
           ? CircleAvatar(
               backgroundImage: Image.asset(
                 'assets/images/default_profile_pic.png',
@@ -47,10 +45,8 @@ class _NavBarHeaderState extends State<NavBarHeader> {
               ).image,
             )
           : CircleAvatar(
-              backgroundImage: Image.file(
-                File(profileSetting.image!.path),
-                // width: 150,
-                fit: BoxFit.contain,
+              backgroundImage: Image.network(
+                profileSetting.newImage,
               ).image,
             ),
     );

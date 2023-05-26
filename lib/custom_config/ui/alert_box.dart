@@ -23,8 +23,8 @@ class AlertBox extends StatefulWidget {
     required this.firstBtnColor,
     required this.secondBtnColor,
     required this.backgroundColor,
-    required this.firstBtnFun,
-    required this.secondBtnFun,
+    this.firstBtnFun,
+    this.secondBtnFun,
   });
 
   @override

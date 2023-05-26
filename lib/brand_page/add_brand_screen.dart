@@ -55,7 +55,11 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
               children: [
                 Column(
                   children: [
-                    showPreviewImage(context, model, model.choosedImage),
+                    showPreviewImage(
+                      context,
+                      model,
+                      model.choosedImage,
+                    ),
                     if (isClickedAdd && model.choosedImage == null)
                       controller.showNoImageError(context),
                   ],
