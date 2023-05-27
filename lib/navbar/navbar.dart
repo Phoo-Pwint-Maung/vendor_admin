@@ -27,11 +27,13 @@ class _NavBarState extends State<NavBar> {
         child: SingleChildScrollView(
           controller: controller.scroll,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               signup.fromSignUp
                   ? NavBarHeader(userName: signup.name, userEmail: signup.email)
                   : NavBarHeader(
                       userName: signin.name, userEmail: signin.email),
+              // Home
               NavBarItem(
                 id: 1,
                 icon: Icons.home,
@@ -40,6 +42,7 @@ class _NavBarState extends State<NavBar> {
                     ? true
                     : false,
               ),
+              // Brands
               ExpansionTile(
                 leading: const Icon(Icons.card_travel),
                 controller: controller.brandExpansionTile,
@@ -63,6 +66,7 @@ class _NavBarState extends State<NavBar> {
                   ),
                 ],
               ),
+              // Categories
               ExpansionTile(
                 leading: const Icon(Icons.card_travel),
                 controller: controller.categoryExpansionTile,
@@ -88,6 +92,7 @@ class _NavBarState extends State<NavBar> {
                   ),
                 ],
               ),
+              // Businesses
               ExpansionTile(
                 leading: const Icon(Icons.card_travel),
                 controller: controller.businessExpansionTile,
@@ -114,6 +119,7 @@ class _NavBarState extends State<NavBar> {
                   ),
                 ],
               ),
+              // Products
               ExpansionTile(
                 leading: const Icon(Icons.card_travel),
                 controller: controller.productExpansionTile,
@@ -139,8 +145,18 @@ class _NavBarState extends State<NavBar> {
                   ),
                 ],
               ),
+              // Vendor Manage
               NavBarItem(
                 id: 10,
+                icon: Icons.other_houses_outlined,
+                title: "Vendor Manage",
+                selected: navBarModel.currentPage == DrawerSection.vendorManage
+                    ? true
+                    : false,
+              ),
+              // Profile Setting
+              NavBarItem(
+                id: 11,
                 icon: Icons.settings,
                 title: "Profile Setting",
                 selected:
@@ -148,6 +164,7 @@ class _NavBarState extends State<NavBar> {
                         ? true
                         : false,
               ),
+              // LogOut
               NavBarItem(
                 id: 11,
                 icon: Icons.arrow_back_ios_new,

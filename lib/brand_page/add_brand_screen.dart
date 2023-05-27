@@ -57,7 +57,6 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
                   children: [
                     showPreviewImage(
                       context,
-                      model,
                       model.choosedImage,
                     ),
                     if (isClickedAdd && model.choosedImage == null)

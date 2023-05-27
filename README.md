@@ -1,4 +1,4 @@
-# Left Error
+# Error
 
 - when password change, showing error is not OK.
 - Navigation Pages
@@ -18,5 +18,7 @@
     - get all business list
     - create business
     - delete business
+    - update business
+
 
 

@@ -95,7 +95,7 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
                             color: color.secondaryColor,
                           ),
                           padding: const EdgeInsets.symmetric(
-                            vertical: 10,
+                            vertical: 5,
                             horizontal: 10,
                           ),
                           child: Row(
@@ -116,7 +116,7 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
                                 child: Image.network(
                                   model.allList[index].mediaUrl,
                                   width: screenWidth * 0.23,
-                                  height: 100,
+                                  height: 80,
                                 ),
                               ),
                               const SizedBox(

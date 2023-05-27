@@ -39,30 +39,44 @@ class _NavBarItemState extends State<NavBarItem> {
             ),
           ),
           onTap: () {
-            print("selecting");
+            // Home
             if (widget.id == 1) {
               navBarModel.changePage(DrawerSection.home);
-            } else if (widget.id == 2) {
+            }
+            // Brands
+            else if (widget.id == 2) {
               navBarModel.changePage(DrawerSection.allBrand);
             } else if (widget.id == 3) {
               navBarModel.changePage(DrawerSection.addBrand);
-            } else if (widget.id == 4) {
+            }
+            // Categories
+            else if (widget.id == 4) {
               navBarModel.changePage(DrawerSection.allCategory);
             } else if (widget.id == 5) {
               navBarModel.changePage(DrawerSection.addCategory);
-            } else if (widget.id == 6) {
+            }
+            // Businesses
+            else if (widget.id == 6) {
               navBarModel.changePage(DrawerSection.allBusiness);
             } else if (widget.id == 7) {
               navBarModel.changePage(DrawerSection.addBusiness);
-            } else if (widget.id == 8) {
+            }
+            // Products
+            else if (widget.id == 8) {
               navBarModel.changePage(DrawerSection.allProduct);
             } else if (widget.id == 9) {
               navBarModel.changePage(DrawerSection.addProduct);
-            } else if (widget.id == 10) {
-              // Profile Setting
+            }
+            // Vendor Manage
+            else if (widget.id == 10) {
+              navBarModel.changePage(DrawerSection.vendorManage);
+            }
+            // Profile Setting
+            else if (widget.id == 11) {
               navBarModel.changePage(DrawerSection.profileSetting);
-            } else if (widget.id == 11) {
-              // LogOut
+            }
+            // LogOut
+            else if (widget.id == 11) {
               final controller = LogOutController();
               controller.logOut(context);
             }

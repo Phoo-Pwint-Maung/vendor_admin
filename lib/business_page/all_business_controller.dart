@@ -10,11 +10,11 @@ class AllBusinessController {
   final scroll = ScrollController();
   String? id;
   String? token;
+
   Future<void> getAllBusiness(BuildContext context) async {
     final allBusinessModel =
         Provider.of<AllBusinessData>(context, listen: false);
     if (allBusinessModel.allBusinessList.isEmpty) {
-      print("Start to get all business");
       // Get Id and Token From Signin or Singup
       List<String> idTokenList = idAndToken(context);
       id = idTokenList[0];

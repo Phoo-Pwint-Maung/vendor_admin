@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ Future<XFile?> imageBase64() async {
 // showPreView Choosed Image
 Widget showPreviewImage(
   BuildContext context,
-  dynamic model,
   XFile? image,
 ) {
   final screenWidth = MediaQuery.of(context).size.width;
@@ -25,7 +25,7 @@ Widget showPreviewImage(
             vertical: 20,
           ),
           width: screenWidth * 0.45,
-          child: Image.asset("assets/images/purpeech.jpg"),
+          child: Image.asset("assets/images/NoImage.png"),
         )
       : Container(
           padding: const EdgeInsets.symmetric(

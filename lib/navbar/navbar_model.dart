@@ -18,6 +18,7 @@ enum DrawerSection {
   addBusiness,
   allProduct,
   addProduct,
+  vendorManage,
   profileSetting,
   logOut,
 }

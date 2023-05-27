@@ -17,7 +17,7 @@ class MainTitle extends StatelessWidget {
       titleName,
       style: TextStyle(
         color: color.secondaryColor,
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
     );

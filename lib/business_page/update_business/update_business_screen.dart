@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/business_page/add_business_model.dart';
-import 'package:vendor_admin/business_page/all_business_controller.dart';
 import 'package:vendor_admin/business_page/all_business_model.dart';
 import 'package:vendor_admin/business_page/update_business/update_business_controller.dart';
 import 'package:vendor_admin/business_page/update_business/update_business_model.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
-import 'package:vendor_admin/business_page/add_business_controller.dart';
 import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
-import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/image_base64.dart';
 import 'package:vendor_admin/navbar/navbar_model.dart';
 
@@ -42,6 +38,7 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
     return Consumer2<UpdateBusinessModel, NavBarModel>(
         builder: (context, model, navBarModel, _) {
       return Scaffold(
+        backgroundColor: color.ternaryColor,
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () {
@@ -62,8 +59,7 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
             width: screenWidth,
             child: Column(
               children: [
-                MainTitle(
-                    titleName: "Update ${previewData.first.name} Business"),
+                MainTitle(titleName: "Update ' ${previewData.first.name} ' "),
                 const SizedBoxHeight(
                   height: 30,
                 ),
@@ -91,6 +87,9 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                               updateController.businessAddress,
                           boxTitle: "Address : ",
                         ),
+                        const SizedBoxHeight(
+                          height: 30,
+                        ),
 
                         // showing Image row
                         Row(
@@ -108,19 +107,27 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                               ],
                             ),
                             ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  color.secondaryColor,
-                                ),
-                              ),
+                              style: isApiCallInProgress
+                                  ? ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                      color.grey,
+                                    ))
+                                  : ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                        color.secondaryColor,
+                                      ),
+                                    ),
                               onPressed: () {
                                 model.chooseAndKeepImage();
                               },
                               child: Text(
                                 "Choose Image",
                                 style: TextStyle(
-                                  color: color.primaryColor,
+                                  color: isApiCallInProgress
+                                      ? Colors.black54
+                                      : color.primaryColor,
                                 ),
                               ),
                             ),
@@ -130,18 +137,28 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                     ),
                   ),
                 ),
+                const SizedBoxHeight(
+                  height: 30,
+                ),
                 ElevatedButton(
+                  style: isApiCallInProgress
+                      ? ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                          color.grey,
+                        ))
+                      : ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            color.primaryColor,
+                          ),
+                        ),
                   onPressed: isApiCallInProgress
                       ? null
                       : () {
-                          print("click");
+                          setState(() {
+                            isApiCallInProgress = true; // Set the flag to true
+                          });
                           if (updateController.formKey.currentState!
                               .validate()) {
-                            setState(() {
-                              isApiCallInProgress =
-                                  true; // Set the flag to true
-                            });
-
                             updateController
                                 .updateBusiness(context, widget.id)
                                 .catchError((error) {
@@ -154,9 +171,12 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                             });
                           }
                         },
-                  child: const Text(
-                    "Add",
-                    style: TextStyle(fontSize: 16),
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: isApiCallInProgress ? Colors.black54 : color.black,
+                    ),
                   ),
                 ),
               ],
