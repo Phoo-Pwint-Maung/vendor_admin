@@ -1,15 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/category_page/add_category_model.dart';
 import 'package:vendor_admin/category_page/all_category_model.dart';
+import 'package:vendor_admin/category_page/update_category/update_category_model.dart';
 import 'package:vendor_admin/custom_config/util/dio.dart';
 import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
-class AddCategoryController {
+class UpdateCategoryController {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController categoryName = TextEditingController();
+
+  TextEditingController categoryName = TextEditingController();
+
+  final ScrollController scroll = ScrollController();
+
+  String? adminId;
+  String? token;
+
   // Category Name Validation
   String? validateCategoryName(String? input) {
     if (input!.isEmpty) {
@@ -20,25 +27,23 @@ class AddCategoryController {
     return null;
   }
 
-  // Creating Category
-  Future<void> createCategory(BuildContext context) async {
-    // Get Id and Token From Signin or Singup
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
-
-    final addCategoryModel =
-        Provider.of<AddCategoryModel>(context, listen: false);
+  Future<void> updateCategory(BuildContext context, String categoryId) async {
+    final model = Provider.of<UpdateCategoryModel>(context, listen: false);
     final allCategoryModel =
         Provider.of<AllCategoryData>(context, listen: false);
+    // Get Id and Token From Signin or Singup
+    List<String> idTokenList = idAndToken(context);
+    adminId = idTokenList[0];
+    token = idTokenList[1];
 
-    final url = "$mainUrl/categories?admin_id=$id";
+    final url = "$mainUrl/categories/$categoryId?admin_id=$adminId";
+
     final body = {
       "name": categoryName.text,
-      "media": addCategoryModel.imageStr,
+      "media": model.imageStr,
     };
-
-    final response = await dio.post(
+    print(body);
+    final response = await dio.put(
       url,
       data: body,
       options: Options(
@@ -48,23 +53,20 @@ class AddCategoryController {
         contentType: Headers.jsonContentType,
       ),
     );
-
     print(response);
-
     try {
       if (response.statusCode == 200 &&
           response.data["error"].toString() == "false") {
         final responseList = response.data["data"];
-        // Adding Create Success data to AllCategoryModel
-        allCategoryModel.addNewCategory(
-          AllCategoryModel(
-            categoryId: responseList["_id"].toString(),
-            categoryName: responseList["name"].toString(),
-            categoryMedia: responseList["media"]["media_link"].toString(),
-            mediaId: responseList["media"]["id"].toString(),
-            status: responseList["status"].toString(),
-          ),
+        final AllCategoryModel updateCategoryData = AllCategoryModel(
+          categoryId: responseList["_id"].toString(),
+          categoryName: responseList["name"].toString(),
+          categoryMedia: responseList["media"]["media_link"].toString(),
+          mediaId: responseList["media"]["id"].toString(),
+          status: responseList["status"].toString(),
         );
+        allCategoryModel.editCategory(categoryId, updateCategoryData);
+        // Adding Create Success data to AllCategoryModel
       }
     } catch (e) {}
   }

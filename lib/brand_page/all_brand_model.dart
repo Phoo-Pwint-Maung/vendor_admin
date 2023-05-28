@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 
-class AllBrandModel extends ChangeNotifier {
+class AllBrandModel {
+  final String brandId;
+  final String brandName;
+  final String brandMedia;
+  final String mediaId;
+  final String categoryId;
+  final String categoryName;
+
+  AllBrandModel({
+    required this.brandId,
+    required this.brandName,
+    required this.brandMedia,
+    required this.mediaId,
+    required this.categoryId,
+    required this.categoryName,
+  });
+}
+
+class AllBrandData extends ChangeNotifier {
   List<dynamic> allBrandList = [];
   List<String> brandNameList = [];
 

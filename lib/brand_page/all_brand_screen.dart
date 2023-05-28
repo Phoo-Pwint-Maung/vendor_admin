@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/brand_page/all_brand_card.dart';
 import 'package:vendor_admin/brand_page/all_brand_controller.dart';
 import 'package:vendor_admin/brand_page/all_brand_model.dart';
-import 'package:vendor_admin/custom_config/ui/style.dart';
+import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
+import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
 import 'package:vendor_admin/navbar/navbar_model.dart';
 
 class AllBrandScreen extends StatefulWidget {
@@ -14,77 +14,151 @@ class AllBrandScreen extends StatefulWidget {
 }
 
 class _AllBrandScreenState extends State<AllBrandScreen> {
-  // color
-  final color = ColorConst();
   final controller = AllBrandController();
-
-  Future<Object?>? gettingData() async {
-    await controller.getAllBrand(context);
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    // width
-    double screenWidth = MediaQuery.of(context).size.width;
-    final brandList = Provider.of<AllBrandModel>(context, listen: false);
-    final navBarModel = Provider.of<NavBarModel>(context, listen: false);
+    final screenWidth = MediaQuery.of(context).size.width;
 
-    return FutureBuilder(
-        future: gettingData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator(); // Show loading indicator while fetching data
-          } else if (snapshot.hasError) {
-            return Text(
-                'Error: ${snapshot.error}'); // Show error message if data fetching fails
-          } else {
-            return SingleChildScrollView(
-              controller: ScrollController(),
-              child: Container(
-                width: screenWidth,
+    return Consumer2<AllBrandData, NavBarModel>(
+        builder: (context, model, navBarModel, _) {
+      return SingleChildScrollView(
+        controller: ScrollController(),
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+          ),
+          width: screenWidth,
+          child: Column(
+            children: [
+              Container(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 20,
+                  horizontal: 20,
                 ),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Text(
+                      "Total Brand :  '1'",
+                      style: TextStyle(
+                        color: color.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: color.secondaryColor,
+                        ),
+                      ),
                       onPressed: () {
                         navBarModel.changePage(DrawerSection.addBrand);
                       },
-                      child: const Text("Add Brand"),
+                      child: Text(
+                        "Add +",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: color.secondaryColor,
+                        ),
+                      ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: (brandList.allBrandList.length /
-                              2) //brandList.brandCount
-                          .ceil(), // Determine the number of rows needed
-                      itemBuilder: (context, rowIndex) {
-                        return GridView.count(
-                          crossAxisCount: 2, // Number of cards per row
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          childAspectRatio: 0.7,
-
-                          children: brandList.brandNameList
-                              .skip(rowIndex * 2)
-                              .take(2)
-                              .map((item) {
-                            return GestureDetector(
-                              onTap: () {},
-                              // Showing Brand Cards
-                              child: AllBrandCard(brandName: item),
-                            );
-                          }).toList(),
-                        );
-                      },
-                    )
                   ],
                 ),
               ),
-            );
-          }
-        });
+              const SizedBoxHeight(
+                height: 30,
+              ),
+
+              // Show List
+              FutureBuilder(
+                future: controller.getAllBrand(context),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      controller: controller.scroll,
+                      itemCount: 2,
+                      itemBuilder: (context, index) => Card(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: color.secondaryColor,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 10,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: screenWidth * 0.1,
+                                child: Text(
+                                  "${index + 1}",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: color.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              SizedBox(
+                                width: screenWidth * 0.2,
+                                child: Image.asset(
+                                  "assets/images/NoImage.png",
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: screenWidth * 0.45,
+                                    child: Text(
+                                      "Brand Name",
+                                      style: TextStyle(
+                                        color: color.primaryColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBoxHeight(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Air conditioner",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: color.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // This is Menu Btn for Edit and Delete
+
+                              // Expanded(
+                              //   child: AllBrandMenuBtn(
+                              //     brandId: ,
+                              //     brandName: ,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

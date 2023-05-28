@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,10 +9,11 @@ class AllBrandController {
   String id = "";
   String token = "";
   final dio = Dio();
+  final scroll = ScrollController();
 
   Future<void> getAllBrand(BuildContext context) async {
     List<String> idTokenList = idAndToken(context);
-    final allBrandModel = Provider.of<AllBrandModel>(context, listen: false);
+    final allBrandModel = Provider.of<AllBrandData>(context, listen: false);
     id = idTokenList[0];
     token = idTokenList[1];
 

@@ -92,7 +92,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                           crossAxisCount: 2, // Number of cards per row
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          childAspectRatio: 0.9,
+                          childAspectRatio: 0.87,
 
                           children: model.allCategoriesList
                               .skip(rowIndex * 2)
@@ -104,6 +104,7 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                               child: AllCategoryCard(
                                 name: item.categoryName,
                                 url: item.categoryMedia,
+                                categoryId: item.categoryId,
                               ),
                             );
                           }).toList(),

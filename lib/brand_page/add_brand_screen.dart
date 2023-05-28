@@ -38,6 +38,7 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
           children: [
             const MainTitle(titleName: "Adding New Brand"),
             const SizedBoxHeight(height: 50),
+            // Brand Name Form Field
             Form(
               key: controller.formKey,
               child: NameInputBox(
@@ -49,6 +50,7 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
               ),
             ),
             const SizedBoxHeight(height: 30),
+
             // Image choosing row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +83,7 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
                 ),
               ],
             ),
-            const SizedBoxHeight(height: 50),
+            const SizedBoxHeight(height: 80),
             ProfileSettingBtn(
               btnName: "Add",
               btnFunction: () {

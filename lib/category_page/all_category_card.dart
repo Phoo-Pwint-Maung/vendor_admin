@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:vendor_admin/category_page/delete_category/delete_category_screen.dart';
+import 'package:vendor_admin/category_page/update_category/update_category_screen.dart';
+import 'package:vendor_admin/custom_config/ui/alert_box.dart';
 import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
 import 'package:vendor_admin/custom_config/ui/style.dart';
 
 class AllCategoryCard extends StatefulWidget {
   final String name;
   final String url;
+  final String categoryId;
   const AllCategoryCard({
     super.key,
     required this.name,
     required this.url,
+    required this.categoryId,
   });
 
   @override
@@ -17,6 +22,7 @@ class AllCategoryCard extends StatefulWidget {
 
 class _AllCategoryCardState extends State<AllCategoryCard> {
   final color = ColorConst();
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -58,6 +64,18 @@ class _AllCategoryCardState extends State<AllCategoryCard> {
                   style: const ButtonStyle(),
                   onPressed: () {
                     // Perform some action
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return UpdateCategoryScreen(
+                            name: widget.name,
+                            url: widget.url,
+                            categoryId: widget.categoryId,
+                          );
+                        },
+                      ),
+                    );
                   },
                   child: Text(
                     'Edit',
@@ -70,6 +88,40 @@ class _AllCategoryCardState extends State<AllCategoryCard> {
                 TextButton(
                   onPressed: () {
                     // Perform some action
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertBox(
+                          title: widget.name,
+                          content: 'Are you sure "Delete" this category?',
+                          firstBtnName: "Cancel",
+                          secondBtnName: "Delete",
+                          contentColor: color.white,
+                          firstBtnColor: color.white,
+                          secondBtnColor: color.red,
+                          backgroundColor: color.black,
+                          // Cancel Button
+                          firstBtnFun: () {
+                            Navigator.pop(context);
+                          },
+                          // Delete Button
+                          secondBtnFun: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return DeleteCategoryScreen(
+                                    name: widget.name,
+                                    url: widget.url,
+                                    categoryId: widget.categoryId,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
                   },
                   child: Text(
                     'Delete',

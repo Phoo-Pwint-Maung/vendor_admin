@@ -40,6 +40,7 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
       return Scaffold(
         backgroundColor: color.ternaryColor,
         appBar: AppBar(
+          backgroundColor: color.secondaryColor,
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
