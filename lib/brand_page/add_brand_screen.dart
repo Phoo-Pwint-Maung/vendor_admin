@@ -47,34 +47,23 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
               const MainTitle(titleName: "Adding New Brand"),
               const SizedBoxHeight(height: 30),
               // Choose Category
-              FutureBuilder(
-                  future: controller.checkCategoryList(context),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else if (allCategoryModel.isNoData) {
-                      return const Text('No Category Now');
-                    } else {
-                      options = allCategoryModel.allCategoriesList;
-                      return DropdownButton<String>(
-                        value: selectedCategoryId,
-                        hint: Text('Select a category'),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedCategoryId = newValue;
-                          });
-                        },
-                        items: options.map((AllCategoryModel categoryModel) {
-                          return DropdownMenuItem<String>(
-                            value: categoryModel.categoryId,
-                            child: Text(categoryModel.categoryName),
-                          );
-                        }).toList(),
-                      );
-                    }
-                  }),
+
+              DropdownButton<String>(
+                value: selectedCategoryId,
+                hint: Text('Select a category'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCategoryId = newValue;
+                  });
+                },
+                items: options.map((AllCategoryModel categoryModel) {
+                  return DropdownMenuItem<String>(
+                    value: categoryModel.categoryId,
+                    child: Text(categoryModel.categoryName),
+                  );
+                }).toList(),
+              ),
+
               // Brand Name Form Field
               Form(
                 key: controller.formKey,

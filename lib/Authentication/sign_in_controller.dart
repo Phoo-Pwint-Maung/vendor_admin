@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
 import 'package:vendor_admin/Authentication/sign_up_controller.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
-import 'package:vendor_admin/home_page/main_scaffold.dart';
+import 'package:vendor_admin/getAllList_page/get_lists_screen.dart';
 
 class SignInFormController {
   final dio = Dio();
@@ -57,7 +57,7 @@ class SignInFormController {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const MainScaffold(),
+                builder: (_) => const GetAllListsScreen(),
               ),
             );
           },

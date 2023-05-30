@@ -71,49 +71,37 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
               ),
 
               // Show List
-              FutureBuilder(
-                future: controller.getAllCategoryList(context),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (model.isNoData) {
-                    return const Text('No Category Now');
-                  } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: (model.allCategoriesList.length /
-                              2) //brandList.brandCount
-                          .ceil(), // Determine the number of rows needed
-                      itemBuilder: (context, rowIndex) {
-                        return GridView.count(
-                          crossAxisCount: 2, // Number of cards per row
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          childAspectRatio: 0.87,
 
-                          children: model.allCategoriesList
-                              .skip(rowIndex * 2)
-                              .take(2)
-                              .map((item) {
-                            return GestureDetector(
-                              onTap: () {},
-                              // Showing Brand Cards
-                              child: AllCategoryCard(
-                                name: item.categoryName,
-                                url: item.categoryMedia,
-                                categoryId: item.categoryId,
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      },
-                    );
-                  }
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount:
+                    (model.allCategoriesList.length / 2) //brandList.brandCount
+                        .ceil(), // Determine the number of rows needed
+                itemBuilder: (context, rowIndex) {
+                  return GridView.count(
+                    crossAxisCount: 2, // Number of cards per row
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    childAspectRatio: 0.87,
+
+                    children: model.allCategoriesList
+                        .skip(rowIndex * 2)
+                        .take(2)
+                        .map((item) {
+                      return GestureDetector(
+                        onTap: () {},
+                        // Showing Brand Cards
+                        child: AllCategoryCard(
+                          name: item.categoryName,
+                          url: item.categoryMedia,
+                          categoryId: item.categoryId,
+                        ),
+                      );
+                    }).toList(),
+                  );
                 },
-              )
+              ),
             ],
           ),
         ),

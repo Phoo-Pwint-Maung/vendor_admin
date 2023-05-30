@@ -6,6 +6,8 @@ class AllBusinessModel {
   final String businessId;
   final String mediaId;
   final String mediaUrl;
+  final List category;
+  final List brand;
 
   AllBusinessModel({
     required this.name,
@@ -13,49 +15,43 @@ class AllBusinessModel {
     required this.businessId,
     required this.mediaId,
     required this.mediaUrl,
+    required this.brand,
+    required this.category,
   });
 }
 
 class AllBusinessData extends ChangeNotifier {
-  List<dynamic> allBusinessList = [];
+  List<AllBusinessModel> allBusinessList = [];
 
-  List<AllBusinessModel> allList = [];
+  bool isNoData = false;
+  // Getting All Categories List
+  void getList(List<AllBusinessModel> list) {
+    isNoData = false;
 
-  void allBusinessData(List<dynamic> list) {
-    if (allBusinessList.isEmpty) {
-      allBusinessList = list;
+    allBusinessList = list;
 
-      if (allBusinessList.isNotEmpty) {
-        for (var i = 0; i < allBusinessList.length; i++) {
-          allList.add(
-            AllBusinessModel(
-              name: allBusinessList[i]["name"],
-              address: allBusinessList[i]["address"],
-              businessId: allBusinessList[i]["_id"],
-              mediaId: allBusinessList[i]["media"]["id"],
-              mediaUrl: allBusinessList[i]["media"]["media_link"],
-            ),
-          );
-        }
-      }
-    } else {
-      return;
-    }
+    print("here is now");
 
     notifyListeners();
   }
 
+  // But There is No Business in Api
+  void getNoList() {
+    isNoData = true;
+    notifyListeners();
+  }
+
   void deleteBusiness(String id) {
-    allList.removeWhere((element) => element.businessId == id);
+    allBusinessList.removeWhere((element) => element.businessId == id);
     notifyListeners();
   }
 
   void editBusiness(String id, AllBusinessModel model) {
     List<AllBusinessModel> selectedItem =
-        allList.where((element) => element.businessId == id).toList();
+        allBusinessList.where((element) => element.businessId == id).toList();
     if (selectedItem.isNotEmpty) {
-      int index = allList.indexOf(selectedItem.first);
-      allList[index] = model;
+      int index = allBusinessList.indexOf(selectedItem.first);
+      allBusinessList[index] = model;
     }
 
     notifyListeners();

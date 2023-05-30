@@ -20,12 +20,11 @@ class AllCategoryData extends ChangeNotifier {
   List<AllCategoryModel> allCategoriesList = [];
 
   bool isNoData = false;
+
   // Getting All Categories List
   void getList(List<AllCategoryModel> list) {
     isNoData = false;
-
     allCategoriesList = list;
-
     notifyListeners();
   }
 

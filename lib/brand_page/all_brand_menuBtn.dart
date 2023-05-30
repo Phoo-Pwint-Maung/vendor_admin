@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vendor_admin/business_page/delete_business/delete_business_controller.dart';
-import 'package:vendor_admin/business_page/update_business/update_business_controller.dart';
-import 'package:vendor_admin/business_page/update_business/update_business_screen.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/alert_box.dart';
 
@@ -20,7 +18,7 @@ class AllBrandMenuBtn extends StatefulWidget {
 
 class _AllBrandMenuBtnState extends State<AllBrandMenuBtn> {
   final deleteController = DeleteBusinessController();
-  final updateController = UpdateBusinessController();
+  // final updateController = UpdateBusinessController();
   bool isApiLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -60,16 +58,16 @@ class _AllBrandMenuBtnState extends State<AllBrandMenuBtn> {
                   // Edit button
                   secondBtnFun: () {
                     Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return UpdateBusinessScreen(
-                            id: brandId,
-                          );
-                        },
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return UpdateBusinessScreen(
+                    //         id: brandId,
+                    //       );
+                    //     },
+                    //   ),
+                    // );
                   },
                 );
               });

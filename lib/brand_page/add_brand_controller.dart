@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
 import 'package:vendor_admin/brand_page/all_brand_model.dart';
-import 'package:vendor_admin/category_page/all_category_model.dart';
-import 'package:vendor_admin/custom_config/util/getListsController.dart';
 import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
@@ -12,11 +10,9 @@ class AddBrandController {
   // Key
   final formKey = GlobalKey<FormState>();
   final TextEditingController brandName = TextEditingController();
-  String? id;
-  String? token;
+
   String? brandImage;
   final dio = Dio();
-  final getAllListsController = GetListsController();
 
   // Adding Comfirm
   Future<void> addBrand(BuildContext context, String categoryId) async {
@@ -24,18 +20,8 @@ class AddBrandController {
     final addBrand = Provider.of<AddBrandModel>(context, listen: false);
 
     brandImage = addBrand.imageStr;
-    // getting id and token
-    idAndToken(context);
-    // getting id and toke
 
-    if (allBrand.allBrandList.isEmpty) {
-      await getAllListsController.getBrandList(
-        context: context,
-        brandModel: allBrand,
-      );
-    }
-
-    final String url = "$mainUrl/brands?admin_id=$id";
+    final String url = "$mainUrl/brands?admin_id=$adminId";
     final body = {
       "category_id": categoryId,
       "name": brandName.text,
@@ -69,18 +55,6 @@ class AddBrandController {
         );
       }
     } catch (e) {}
-  }
-
-  // If category list is not fetched already, go to fetch
-  Future<void> checkCategoryList(BuildContext context) async {
-    final allCategoryModel =
-        Provider.of<AllCategoryData>(context, listen: false);
-    final allList = GetListsController();
-
-    if (allCategoryModel.allCategoriesList.isEmpty) {
-      await allList.getCategoryList(
-          context: context, categoryModel: allCategoryModel);
-    }
   }
 
   // Brand Name Validation

@@ -37,7 +37,7 @@ class UpdateCategoryController {
       "name": categoryName.text,
       "media": model.imageStr,
     };
-    print(body);
+
     final response = await dio.put(
       url,
       data: body,
@@ -48,7 +48,7 @@ class UpdateCategoryController {
         contentType: Headers.jsonContentType,
       ),
     );
-    print(response);
+
     try {
       if (response.statusCode == 200 &&
           response.data["error"].toString() == "false") {
@@ -61,7 +61,6 @@ class UpdateCategoryController {
           status: responseList["status"].toString(),
         );
         allCategoryModel.editCategory(categoryId, updateCategoryData);
-        // Adding Create Success data to AllCategoryModel
       }
     } catch (e) {}
   }

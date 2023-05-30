@@ -22,9 +22,9 @@ class AllBrandData extends ChangeNotifier {
   bool isNoData = false;
   // Getting All Categories List
   void getList(List<AllBrandModel> list) {
-    isNoData = false;
-
     allBrandList = list;
+    print("brand model keeping...");
+    print(allBrandList);
 
     notifyListeners();
   }

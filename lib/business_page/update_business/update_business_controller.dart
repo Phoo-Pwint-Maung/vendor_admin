@@ -23,7 +23,7 @@ class UpdateBusinessController {
     final allBusinessData =
         Provider.of<AllBusinessData>(context, listen: false);
     List<AllBusinessModel> selectedList =
-        allBusinessData.allList.where((element) {
+        allBusinessData.allBusinessList.where((element) {
       return element.businessId == id;
     }).toList();
 
@@ -41,8 +41,6 @@ class UpdateBusinessController {
     final selectedBusinessId = id;
     final updateBusinessModel =
         Provider.of<UpdateBusinessModel>(context, listen: false);
-    final allBusinessModel =
-        Provider.of<AllBusinessData>(context, listen: false);
 
     // Get Id and Token From Signin or Singup
     idAndToken(context);
@@ -83,15 +81,15 @@ class UpdateBusinessController {
             response.data["error"].toString() == "false") {
           Navigator.pop(context);
           updateBusinessModel.isSelectImage = false;
-          final returnList = response.data["data"];
-          AllBusinessModel updatedBusinessData = AllBusinessModel(
-            name: returnList["name"],
-            address: returnList["address"],
-            businessId: returnList["_id"],
-            mediaId: returnList["media"]["id"],
-            mediaUrl: returnList["media"]["media_link"],
-          );
-          allBusinessModel.editBusiness(id, updatedBusinessData);
+          // final returnList = response.data["data"];
+          // AllBusinessModel updatedBusinessData = AllBusinessModel(
+          //   name: returnList["name"],
+          //   address: returnList["address"],
+          //   businessId: returnList["_id"],
+          //   mediaId: returnList["media"]["id"],
+          //   mediaUrl: returnList["media"]["media_link"],
+          // );
+          // allBusinessModel.editBusiness(id, updatedBusinessData);
         }
       } catch (e) {}
     }

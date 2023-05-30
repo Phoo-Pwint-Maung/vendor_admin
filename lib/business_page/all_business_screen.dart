@@ -45,7 +45,7 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Total Businesses :  ' ${model.allList.length} '",
+                      "Total Businesses :  ' ${model.allBusinessList.length} '",
                       style: TextStyle(
                         color: color.black,
                         fontSize: 18,
@@ -77,93 +77,83 @@ class _AllBusinessScreenState extends State<AllBusinessScreen> {
               ),
 
               // Show List
-              FutureBuilder(
-                future: allBusiness.getAllBusiness(context),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      controller: allBusiness.scroll,
-                      itemCount: model.allList.length,
-                      itemBuilder: (context, index) => Card(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: color.secondaryColor,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: screenWidth * 0.1,
-                                child: Text(
-                                  "${index + 1}",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: color.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              SizedBox(
-                                width: screenWidth * 0.2,
-                                child: Image.network(
-                                  model.allList[index].mediaUrl,
-                                  width: screenWidth * 0.23,
-                                  height: 80,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: screenWidth * 0.45,
-                                    child: Text(
-                                      model.allList[index].name,
-                                      style: TextStyle(
-                                        color: color.primaryColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBoxHeight(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    model.allList[index].address,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: color.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              // This is Menu Btn for Edit and Delete
 
-                              Expanded(
-                                child: AllBusinessMenuBtn(
-                                  businessId: model.allList[index].businessId,
-                                  businessName: model.allList[index].name,
-                                ),
-                              ),
-                            ],
+              ListView.builder(
+                shrinkWrap: true,
+                controller: allBusiness.scroll,
+                itemCount: model.allBusinessList.length,
+                itemBuilder: (context, index) => Card(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: color.secondaryColor,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: screenWidth * 0.1,
+                          child: Text(
+                            "${index + 1}",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: color.white,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                    );
-                  }
-                },
-              )
+                        SizedBox(
+                          width: screenWidth * 0.2,
+                          child: Image.network(
+                            model.allBusinessList[index].mediaUrl,
+                            width: screenWidth * 0.23,
+                            height: 80,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: screenWidth * 0.45,
+                              child: Text(
+                                model.allBusinessList[index].name,
+                                style: TextStyle(
+                                  color: color.primaryColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBoxHeight(
+                              height: 10,
+                            ),
+                            Text(
+                              model.allBusinessList[index].address,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: color.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // This is Menu Btn for Edit and Delete
+
+                        Expanded(
+                          child: AllBusinessMenuBtn(
+                            businessId: model.allBusinessList[index].businessId,
+                            businessName: model.allBusinessList[index].name,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
