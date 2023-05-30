@@ -1,9 +1,10 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
-import 'package:vendor_admin/custom_config/ui/style.dart';
+import 'package:vendor_admin/brand_page/all_brand_model.dart';
+import 'package:vendor_admin/category_page/all_category_model.dart';
+import 'package:vendor_admin/custom_config/util/getListsController.dart';
 import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
@@ -15,32 +16,28 @@ class AddBrandController {
   String? token;
   String? brandImage;
   final dio = Dio();
+  final getAllListsController = GetListsController();
 
   // Adding Comfirm
+  Future<void> addBrand(BuildContext context, String categoryId) async {
+    final allBrand = Provider.of<AllBrandData>(context, listen: false);
+    final addBrand = Provider.of<AddBrandModel>(context, listen: false);
 
-  Future<void> addBrand(BuildContext context) async {
-    final addBrandModel = Provider.of<AddBrandModel>(context, listen: false);
-
+    brandImage = addBrand.imageStr;
     // getting id and token
-    List<String> listIdAndToken = idAndToken(context);
-    id = listIdAndToken[0];
-    token = listIdAndToken[1];
-    // getting id and token
+    idAndToken(context);
+    // getting id and toke
 
-    print(addBrandModel.choosedImage);
-
-    if (addBrandModel.imageStr != null) {
-      brandImage = addBrandModel.imageStr;
-      // File file = File(addBrandModel.choosedImage!.path);
-
-      // List<int> unit8 = file.readAsBytesSync();
-
-      // brandImage = base64Encode(unit8);
-      // print(brandImage);
+    if (allBrand.allBrandList.isEmpty) {
+      await getAllListsController.getBrandList(
+        context: context,
+        brandModel: allBrand,
+      );
     }
 
     final String url = "$mainUrl/brands?admin_id=$id";
     final body = {
+      "category_id": categoryId,
       "name": brandName.text,
       "media": brandImage,
     };
@@ -59,10 +56,31 @@ class AddBrandController {
     try {
       if (response.statusCode == 200 &&
           response.data["error"].toString() == "false") {
-        print(response);
-        // allBrandModel.getAllBrandData(response.data["data"]);
+        final responseList = response.data["data"];
+        // Adding Create Success data to AllCategoryModel
+        allBrand.addNewBrand(
+          AllBrandModel(
+            brandId: responseList["_id"].toString(),
+            brandName: responseList["name"].toString(),
+            brandMedia: responseList["media"]["media_link"].toString(),
+            mediaId: responseList["media"]["id"].toString(),
+            categoryId: responseList["category_id"].toString(),
+          ),
+        );
       }
     } catch (e) {}
+  }
+
+  // If category list is not fetched already, go to fetch
+  Future<void> checkCategoryList(BuildContext context) async {
+    final allCategoryModel =
+        Provider.of<AllCategoryData>(context, listen: false);
+    final allList = GetListsController();
+
+    if (allCategoryModel.allCategoriesList.isEmpty) {
+      await allList.getCategoryList(
+          context: context, categoryModel: allCategoryModel);
+    }
   }
 
   // Brand Name Validation
@@ -71,22 +89,5 @@ class AddBrandController {
       return "* Type Something";
     }
     return null;
-  }
-
-  Widget showNoImageError(BuildContext context) {
-    final color = ColorConst();
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return SizedBox(
-      width: screenWidth * 0.4,
-      child: Text(
-        "*Choose Image*",
-        style: TextStyle(
-          color: color.secondaryColor,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
   }
 }

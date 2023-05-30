@@ -16,6 +16,7 @@ class SignInFormController {
   final formKey = GlobalKey<FormState>();
 
   Future<void> login(BuildContext context) async {
+    final signInModel = Provider.of<SignInData>(context, listen: false);
     print("login");
     const String url = "$mainUrl/login";
     final body = {
@@ -41,7 +42,7 @@ class SignInFormController {
         final String name = response.data['data']['name'].toString();
         final String email = response.data['data']['email'].toString();
         // Store Data
-        final signInModel = Provider.of<SignInData>(context, listen: false);
+
         signInModel.keepData(
           SignInModel(
             id: id,

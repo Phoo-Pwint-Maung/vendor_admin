@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
-import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
 import 'package:vendor_admin/brand_page/all_brand_model.dart';
 import 'package:vendor_admin/business_page/add_business_model.dart';
@@ -21,9 +20,6 @@ final List<SingleChildWidget> provider = [
   ),
   ChangeNotifierProvider(
     create: (context) => SignInData(),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => SignUpData(),
   ),
   ChangeNotifierProvider(
     create: (context) => ProfileEditModel(),

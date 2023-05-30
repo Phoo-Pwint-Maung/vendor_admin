@@ -7,17 +7,12 @@ import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
 class DeleteBusinessController {
-  String? adminId;
-  String? token;
-
   Future<void> deleteBusiness(BuildContext context, String id) async {
     final allBusinessModel =
         Provider.of<AllBusinessData>(context, listen: false);
 
     // Get Id and Token From Signin or Singup
-    List<String> idTokenList = idAndToken(context);
-    adminId = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
     final businessId = id;
 

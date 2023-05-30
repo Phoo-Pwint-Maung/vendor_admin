@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
+import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
+
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
 class SignUpFormController {
@@ -16,6 +17,7 @@ class SignUpFormController {
   final formKey = GlobalKey<FormState>();
 
   Future<void> register(BuildContext context) async {
+    final signInModel = Provider.of<SignInData>(context, listen: false);
     const String url = "$mainUrl/register";
     final body = {
       "name": name.text,
@@ -38,16 +40,16 @@ class SignUpFormController {
         final String name = response.data["data"]["name"].toString();
         final String email = response.data["data"]["email"].toString();
         final String authToken = response.data["data"]["auth_token"].toString();
-        // Store Data
-        final signUpData = Provider.of<SignUpData>(context, listen: false);
-        signUpData.keepData(
-          SignUpModel(
+
+        signInModel.keepData(
+          SignInModel(
             id: id,
             name: name,
             email: email,
             authToken: authToken,
           ),
         );
+
         // Navigate to HomeScreen
         // Future.microtask(
         //   () {

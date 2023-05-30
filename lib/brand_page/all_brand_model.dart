@@ -6,7 +6,6 @@ class AllBrandModel {
   final String brandMedia;
   final String mediaId;
   final String categoryId;
-  final String categoryName;
 
   AllBrandModel({
     required this.brandId,
@@ -14,23 +13,31 @@ class AllBrandModel {
     required this.brandMedia,
     required this.mediaId,
     required this.categoryId,
-    required this.categoryName,
   });
 }
 
 class AllBrandData extends ChangeNotifier {
-  List<dynamic> allBrandList = [];
-  List<String> brandNameList = [];
+  List<AllBrandModel> allBrandList = [];
 
-  void getAllBrandData(List<dynamic> list) {
-    if (allBrandList.isEmpty) {
-      allBrandList = list;
-      if (allBrandList.isNotEmpty && brandNameList.isEmpty) {
-        for (var i = 0; i < allBrandList.length; i++) {
-          brandNameList.add(allBrandList[i]["name"]);
-        }
-      }
-    }
+  bool isNoData = false;
+  // Getting All Categories List
+  void getList(List<AllBrandModel> list) {
+    isNoData = false;
+
+    allBrandList = list;
+
+    notifyListeners();
+  }
+
+  // But There is No Category in Api
+  void getNoList() {
+    isNoData = true;
+    notifyListeners();
+  }
+
+  // Adding New Category
+  void addNewBrand(AllBrandModel data) {
+    allBrandList.insert(0, data);
     notifyListeners();
   }
 }

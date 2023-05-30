@@ -14,9 +14,6 @@ class UpdateCategoryController {
 
   final ScrollController scroll = ScrollController();
 
-  String? adminId;
-  String? token;
-
   // Category Name Validation
   String? validateCategoryName(String? input) {
     if (input!.isEmpty) {
@@ -32,9 +29,7 @@ class UpdateCategoryController {
     final allCategoryModel =
         Provider.of<AllCategoryData>(context, listen: false);
     // Get Id and Token From Signin or Singup
-    List<String> idTokenList = idAndToken(context);
-    adminId = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
     final url = "$mainUrl/categories/$categoryId?admin_id=$adminId";
 

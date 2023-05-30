@@ -78,10 +78,12 @@ class _ProfileDataBoxState extends State<ProfileDataBox> {
 class ProfileSettingBtn extends StatefulWidget {
   final void Function()? btnFunction;
   final String btnName;
+  final MaterialStateProperty<Color?>? btnColor;
   const ProfileSettingBtn({
     super.key,
     this.btnFunction,
     required this.btnName,
+    required this.btnColor,
   });
 
   @override
@@ -96,11 +98,7 @@ class _ProfileSettingBtnState extends State<ProfileSettingBtn> {
     return SizedBox(
       width: screenWidth * 0.8,
       child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-            color.secondaryColor,
-          ),
-        ),
+        style: ButtonStyle(backgroundColor: widget.btnColor),
         onPressed: widget.btnFunction,
         child: Text(
           widget.btnName,

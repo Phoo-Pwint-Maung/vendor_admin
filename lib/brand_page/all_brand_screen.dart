@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/all_brand_controller.dart';
 import 'package:vendor_admin/brand_page/all_brand_model.dart';
+import 'package:vendor_admin/category_page/all_category_model.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
 import 'package:vendor_admin/navbar/navbar_model.dart';
@@ -19,8 +20,8 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Consumer2<AllBrandData, NavBarModel>(
-        builder: (context, model, navBarModel, _) {
+    return Consumer3<AllBrandData, NavBarModel, AllCategoryData>(
+        builder: (context, model, navBarModel, categoryModel, _) {
       return SingleChildScrollView(
         controller: ScrollController(),
         child: Container(
@@ -79,79 +80,81 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     return ListView.builder(
-                      shrinkWrap: true,
-                      controller: controller.scroll,
-                      itemCount: 2,
-                      itemBuilder: (context, index) => Card(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: color.secondaryColor,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: screenWidth * 0.1,
-                                child: Text(
-                                  "${index + 1}",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: color.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                        shrinkWrap: true,
+                        controller: controller.scroll,
+                        itemCount: model.allBrandList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: color.secondaryColor,
                               ),
-                              SizedBox(
-                                width: screenWidth * 0.2,
-                                child: Image.asset(
-                                  "assets/images/NoImage.png",
-                                ),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 5,
+                                horizontal: 10,
                               ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
                                 children: [
                                   SizedBox(
-                                    width: screenWidth * 0.45,
+                                    width: screenWidth * 0.1,
                                     child: Text(
-                                      "Brand Name",
+                                      "${index + 1}",
                                       style: TextStyle(
-                                        color: color.primaryColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        color: color.white,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  const SizedBoxHeight(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Air conditioner",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: color.white,
+                                  SizedBox(
+                                    width: screenWidth * 0.2,
+                                    child: Image.network(
+                                      model.allBrandList[index].brandMedia,
                                     ),
                                   ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: screenWidth * 0.45,
+                                        child: Text(
+                                          model.allBrandList[index].brandName,
+                                          style: TextStyle(
+                                            color: color.primaryColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBoxHeight(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        model.allBrandList[index].categoryId,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: color.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  // This is Menu Btn for Edit and Delete
+
+                                  // Expanded(
+                                  //   child: AllBrandMenuBtn(
+                                  //     brandId: ,
+                                  //     brandName: ,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
-                              // This is Menu Btn for Edit and Delete
-
-                              // Expanded(
-                              //   child: AllBrandMenuBtn(
-                              //     brandId: ,
-                              //     brandName: ,
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                            ),
+                          );
+                        });
                   }
                 },
               )

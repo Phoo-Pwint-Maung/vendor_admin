@@ -46,6 +46,9 @@ class _ProfileSettingState extends State<ProfileSetting> {
               print(signin.signInAuthToken);
               controller.goProfileEditPage(context);
             },
+            btnColor: MaterialStateProperty.all<Color>(
+              color.secondaryColor,
+            ),
           ),
           const SizedBoxHeight(height: 20),
           // Change Password Button
@@ -54,6 +57,9 @@ class _ProfileSettingState extends State<ProfileSetting> {
             btnFunction: () {
               controller.goPasswordChangePage(context);
             },
+            btnColor: MaterialStateProperty.all<Color>(
+              color.secondaryColor,
+            ),
           ),
         ],
       ),

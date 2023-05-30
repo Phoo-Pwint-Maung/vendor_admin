@@ -9,13 +9,10 @@ import 'package:vendor_admin/vendor_manage_page/vendor_manage_model.dart';
 
 class VendorManageController {
   final scroll = ScrollController();
-  String? id;
-  String? token;
+
   Future<void> getAllVendorList(BuildContext context) async {
     // Get Admin id and Token;
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
     final vendorManageModel =
         Provider.of<VendorManageModel>(context, listen: false);
@@ -23,7 +20,7 @@ class VendorManageController {
     if (vendorManageModel.activeVendorList.isEmpty &&
         vendorManageModel.inactiveVendorList.isEmpty) {
       // Get Active Vendor List
-      final activeUrl = "$mainUrl/active/vendor-lists?admin_id=$id";
+      final activeUrl = "$mainUrl/active/vendor-lists?admin_id=$adminId";
       final activeResponse = await dio.get(
         activeUrl,
         options: Options(
@@ -46,7 +43,7 @@ class VendorManageController {
         }
       } catch (e) {}
       // Get Inactive Vendor List
-      final inactiveUrl = "$mainUrl/inactive/vendor-lists?admin_id=$id";
+      final inactiveUrl = "$mainUrl/inactive/vendor-lists?admin_id=$adminId";
       final inactiveResponse = await dio.get(
         inactiveUrl,
         options: Options(
@@ -72,7 +69,7 @@ class VendorManageController {
       } catch (e) {}
 
       // Get Inactive Vendor List
-      final apiAllVendorUrl = "$mainUrl/vendor-lists?admin_id=$id";
+      final apiAllVendorUrl = "$mainUrl/vendor-lists?admin_id=$adminId";
       final apiAllVendorResponse = await dio.get(
         apiAllVendorUrl,
         options: Options(
@@ -106,11 +103,9 @@ class VendorManageController {
       BuildContext context, String selectedId) async {
     print("active to inactive process");
     // Get Admin id and Token;
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
-    final url = "$mainUrl/inactive/vendor/process?admin_id=$id";
+    final url = "$mainUrl/inactive/vendor/process?admin_id=$adminId";
 
     final response = await dio.post(
       url,
@@ -140,11 +135,9 @@ class VendorManageController {
   Future<void> inactiveToactiveFunction(
       BuildContext context, String selectedId) async {
     // Get Admin id and Token;
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
-    final url = "$mainUrl/active/vendor/process?admin_id=$id";
+    final url = "$mainUrl/active/vendor/process?admin_id=$adminId";
 
     final response = await dio.post(
       url,

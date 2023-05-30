@@ -22,19 +22,14 @@ class PassChangeController {
   // color
   final color = ColorConst();
 
-  String id = '';
-  String token = '';
-
   void passwordChanged(BuildContext context) async {
     print("start");
 
     final model = Provider.of<PassChangeModel>(context, listen: false);
     // Get Id and Token
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
     // Get Id and Token
-    final String url = "$mainUrl/change/password?admin_id=$id";
+    final String url = "$mainUrl/change/password?admin_id=$adminId";
 
     final body = {
       "old_password": oldPassword.text,
@@ -42,7 +37,7 @@ class PassChangeController {
       "new_password_confirmation": newPasswordComfirmation.text,
     };
     print(token);
-    print(id);
+    print(adminId);
     print("posting");
     final response = await dio.post(
       url,

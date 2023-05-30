@@ -94,6 +94,9 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                     controller.passwordChanged(context);
                   }
                 },
+                btnColor: MaterialStateProperty.all<Color>(
+                  color.secondaryColor,
+                ),
               ),
               const SizedBoxHeight(height: 40),
               // Error Box

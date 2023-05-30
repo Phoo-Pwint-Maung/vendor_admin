@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
-import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/profile_setting/password_change/pass_change_screen.dart';
 import 'package:vendor_admin/profile_setting/profile_edit/profile_edit_model.dart';
 import 'package:vendor_admin/profile_setting/profile_edit/profile_edit_screen.dart';
@@ -13,7 +12,6 @@ class ProfileSettingController {
     required BuildContext context,
     required String title,
   }) {
-    final signup = Provider.of<SignUpData>(context);
     final signin = Provider.of<SignInData>(context);
     // width
     double screenWidth = MediaQuery.of(context).size.width;
@@ -22,21 +20,14 @@ class ProfileSettingController {
         children: [
           LeftText(width: screenWidth * 0.25, text: title),
           LeftText(width: screenWidth * 0.1, text: ":"),
-          signup.fromSignUp
-              ? title == "Name"
-                  ? RightText(
-                      text: signup.name,
-                    )
-                  : RightText(
-                      text: signup.email,
-                    )
-              : title == "Name"
-                  ? RightText(
-                      text: signin.name,
-                    )
-                  : RightText(
-                      text: signin.email,
-                    )
+          if (title == "Name")
+            RightText(
+              text: signin.name,
+            ),
+          if (title == "Email")
+            RightText(
+              text: signin.email,
+            ),
         ],
       ),
     );

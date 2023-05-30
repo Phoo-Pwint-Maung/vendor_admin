@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
-import 'package:vendor_admin/Authentication/model/sign_up_model.dart';
 import 'package:vendor_admin/navbar/drawer_header.dart';
 import 'package:vendor_admin/navbar/navbar_item.dart';
 import 'package:vendor_admin/navbar/navbar_controller.dart';
@@ -20,8 +19,8 @@ class _NavBarState extends State<NavBar> {
   final color = ColorConst();
   @override
   Widget build(BuildContext context) {
-    return Consumer3<NavBarModel, SignInData, SignUpData>(
-        builder: (context, navBarModel, signin, signup, _) {
+    return Consumer2<NavBarModel, SignInData>(
+        builder: (context, navBarModel, signin, _) {
       return Drawer(
         backgroundColor: color.ternaryColor,
         child: SingleChildScrollView(
@@ -29,10 +28,7 @@ class _NavBarState extends State<NavBar> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              signup.fromSignUp
-                  ? NavBarHeader(userName: signup.name, userEmail: signup.email)
-                  : NavBarHeader(
-                      userName: signin.name, userEmail: signin.email),
+              NavBarHeader(userName: signin.name, userEmail: signin.email),
               // Home
               NavBarItem(
                 id: 1,

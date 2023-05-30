@@ -23,16 +23,14 @@ class AddCategoryController {
   // Creating Category
   Future<void> createCategory(BuildContext context) async {
     // Get Id and Token From Signin or Singup
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
     final addCategoryModel =
         Provider.of<AddCategoryModel>(context, listen: false);
     final allCategoryModel =
         Provider.of<AllCategoryData>(context, listen: false);
 
-    final url = "$mainUrl/categories?admin_id=$id";
+    final url = "$mainUrl/categories?admin_id=$adminId";
     final body = {
       "name": categoryName.text,
       "media": addCategoryModel.imageStr,

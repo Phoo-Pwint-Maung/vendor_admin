@@ -23,11 +23,9 @@ class AddBusinessController {
     addBusinessModel.addNewBusiness == null;
 
     // Get Id and Token From Signin or Singup
-    List<String> idTokenList = idAndToken(context);
-    id = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
-    final url = "$mainUrl/businesses?admin_id=$id";
+    final url = "$mainUrl/businesses?admin_id=$adminId";
 
     if (addBusinessModel.imageStr != null) {
       final body = {

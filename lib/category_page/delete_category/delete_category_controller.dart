@@ -7,17 +7,12 @@ import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
 class DeleteCategoryController {
-  String? adminId;
-  String? token;
-
   Future<void> deleteBusiness(BuildContext context, String categoryId) async {
     final allCategoryModel =
         Provider.of<AllCategoryData>(context, listen: false);
 
     // Get Id and Token From Signin or Singup
-    List<String> idTokenList = idAndToken(context);
-    adminId = idTokenList[0];
-    token = idTokenList[1];
+    idAndToken(context);
 
     final url = "$mainUrl/categories/$categoryId?admin_id=$adminId";
 
