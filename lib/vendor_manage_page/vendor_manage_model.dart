@@ -47,7 +47,6 @@ class VendorManageModel extends ChangeNotifier {
         );
       }
     }
-    // activeVendorList = list;
     notifyListeners();
   }
 
@@ -77,14 +76,11 @@ class VendorManageModel extends ChangeNotifier {
       allVendorList = activeVendorList + inactiveVendorList;
     }
     for (var i = 0; i < allList.length; i++) {
-      print("here");
       Iterable<VendorModel> getVendor = allVendorList.where((element) {
         return element.vendorId == allList[i]["_id"].toString();
       });
       apiAllVendorList.add(getVendor.first);
-      print(getVendor);
     }
-    print(apiAllVendorList);
 
     notifyListeners();
   }

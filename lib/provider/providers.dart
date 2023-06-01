@@ -3,6 +3,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:vendor_admin/Authentication/model/sign_in_model.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
 import 'package:vendor_admin/brand_page/all_brand_model.dart';
+import 'package:vendor_admin/brand_page/update_brand_page/update_brand_model.dart';
 import 'package:vendor_admin/business_page/add_business_model.dart';
 import 'package:vendor_admin/business_page/all_business_model.dart';
 import 'package:vendor_admin/business_page/update_business/update_business_model.dart';
@@ -27,12 +28,17 @@ final List<SingleChildWidget> provider = [
   ChangeNotifierProvider(
     create: (context) => PassChangeModel(),
   ),
+  // Brand
   ChangeNotifierProvider(
     create: (context) => AllBrandData(),
   ),
   ChangeNotifierProvider(
     create: (context) => AddBrandModel(),
   ),
+  ChangeNotifierProvider(
+    create: (context) => UpdateBrandModel(),
+  ),
+  // Business
   ChangeNotifierProvider(
     create: (context) => AllBusinessData(),
   ),
@@ -42,9 +48,11 @@ final List<SingleChildWidget> provider = [
   ChangeNotifierProvider(
     create: (context) => UpdateBusinessModel(),
   ),
+  // Vendor Manage
   ChangeNotifierProvider(
     create: (context) => VendorManageModel(),
   ),
+  // Category
   ChangeNotifierProvider(
     create: (context) => AllCategoryData(),
   ),

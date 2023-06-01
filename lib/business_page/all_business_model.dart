@@ -30,8 +30,6 @@ class AllBusinessData extends ChangeNotifier {
 
     allBusinessList = list;
 
-    print("here is now");
-
     notifyListeners();
   }
 

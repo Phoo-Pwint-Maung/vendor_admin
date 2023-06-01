@@ -23,8 +23,6 @@ class AllBrandData extends ChangeNotifier {
   // Getting All Categories List
   void getList(List<AllBrandModel> list) {
     allBrandList = list;
-    print("brand model keeping...");
-    print(allBrandList);
 
     notifyListeners();
   }
@@ -38,6 +36,22 @@ class AllBrandData extends ChangeNotifier {
   // Adding New Category
   void addNewBrand(AllBrandModel data) {
     allBrandList.insert(0, data);
+    notifyListeners();
+  }
+
+  // Updating New Category Data
+  void editBrand(String id, AllBrandModel updateBrandData) {
+    int index = allBrandList.indexWhere((element) => element.brandId == id);
+    allBrandList[index] = updateBrandData;
+
+    notifyListeners();
+  }
+
+  // Deleting Category
+  void deleteBrand(String id) {
+    allBrandList.removeWhere(
+      (element) => element.brandId == id,
+    );
     notifyListeners();
   }
 }

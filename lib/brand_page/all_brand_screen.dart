@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/all_brand_controller.dart';
+import 'package:vendor_admin/brand_page/all_brand_menuBtn.dart';
 import 'package:vendor_admin/brand_page/all_brand_model.dart';
 import 'package:vendor_admin/category_page/all_category_model.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
@@ -39,7 +40,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Total Brand :  '1'",
+                      "Total Brand :  '${model.allBrandList.length}'",
                       style: TextStyle(
                         color: color.black,
                         fontSize: 18,
@@ -100,7 +101,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                               ),
                             ),
                             SizedBox(
-                              width: screenWidth * 0.2,
+                              width: screenWidth * 0.15,
                               child: Image.network(
                                 model.allBrandList[index].brandMedia,
                               ),
@@ -112,7 +113,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: screenWidth * 0.45,
+                                  width: screenWidth * 0.4,
                                   child: Text(
                                     model.allBrandList[index].brandName,
                                     style: TextStyle(
@@ -126,7 +127,7 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                                   height: 10,
                                 ),
                                 Text(
-                                  model.allBrandList[index].categoryId,
+                                  controller.categoryName(context, index),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: color.white,
@@ -136,12 +137,17 @@ class _AllBrandScreenState extends State<AllBrandScreen> {
                             ),
                             // This is Menu Btn for Edit and Delete
 
-                            // Expanded(
-                            //   child: AllBrandMenuBtn(
-                            //     brandId: ,
-                            //     brandName: ,
-                            //   ),
-                            // ),
+                            Expanded(
+                              child: AllBrandMenuBtn(
+                                brandName: model.allBrandList[index].brandName,
+                                brandId: model.allBrandList[index].brandId,
+                                url: model.allBrandList[index].brandMedia,
+                                categoryId:
+                                    model.allBrandList[index].categoryId,
+                                categoryName:
+                                    controller.categoryName(context, index),
+                              ),
+                            ),
                           ],
                         ),
                       ),

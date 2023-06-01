@@ -1,20 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor_admin/category_page/all_category_model.dart';
+import 'package:vendor_admin/brand_page/all_brand_model.dart';
 import 'package:vendor_admin/custom_config/util/dio.dart';
 import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
-class DeleteCategoryController {
-  Future<void> deleteCategory(BuildContext context, String categoryId) async {
-    final allCategoryModel =
-        Provider.of<AllCategoryData>(context, listen: false);
+class DeleteBrandController {
+  Future<void> deleteBrand(BuildContext context, String brandId) async {
+    final allBrandModel = Provider.of<AllBrandData>(context, listen: false);
 
     // Get Id and Token From Signin or Singup
     idAndToken(context);
 
-    final url = "$mainUrl/categories/$categoryId?admin_id=$adminId";
+    final url = "$mainUrl/brands/$brandId?admin_id=$adminId";
 
     final response = await dio.delete(
       url,
@@ -29,7 +28,7 @@ class DeleteCategoryController {
     try {
       if (response.statusCode == 200 &&
           response.data["error"].toString() == "false") {
-        allCategoryModel.deleteCategory(categoryId);
+        allBrandModel.deleteBrand(brandId);
       }
     } catch (e) {}
 

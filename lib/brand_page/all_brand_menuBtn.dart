@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:vendor_admin/business_page/delete_business/delete_business_controller.dart';
+import 'package:vendor_admin/brand_page/delete_brand_page/delete_brand_screen.dart';
+import 'package:vendor_admin/brand_page/update_brand_page/update_brand_screen.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/alert_box.dart';
 
 class AllBrandMenuBtn extends StatefulWidget {
   final String brandName;
   final String brandId;
+  final String url;
+  final String categoryId;
+  final String categoryName;
+
   const AllBrandMenuBtn({
     super.key,
     required this.brandName,
     required this.brandId,
+    required this.url,
+    required this.categoryId,
+    required this.categoryName,
   });
 
   @override
@@ -17,12 +25,10 @@ class AllBrandMenuBtn extends StatefulWidget {
 }
 
 class _AllBrandMenuBtnState extends State<AllBrandMenuBtn> {
-  final deleteController = DeleteBusinessController();
   // final updateController = UpdateBusinessController();
   bool isApiLoading = false;
   @override
   Widget build(BuildContext context) {
-    final brandId = widget.brandId;
     return PopupMenuButton(
       icon: const Icon(Icons.menu),
       itemBuilder: (context) {
@@ -57,17 +63,20 @@ class _AllBrandMenuBtnState extends State<AllBrandMenuBtn> {
                   },
                   // Edit button
                   secondBtnFun: () {
-                    Navigator.pop(context);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return UpdateBusinessScreen(
-                    //         id: brandId,
-                    //       );
-                    //     },
-                    //   ),
-                    // );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return UpdateBrandScreen(
+                            name: widget.brandName,
+                            brandId: widget.brandId,
+                            url: widget.url,
+                            categoryId: widget.categoryId,
+                            categoryName: widget.categoryName,
+                          );
+                        },
+                      ),
+                    );
                   },
                 );
               });
@@ -93,11 +102,20 @@ class _AllBrandMenuBtnState extends State<AllBrandMenuBtn> {
                   setState(() {
                     isApiLoading = true;
                   });
-                  deleteController
-                      .deleteBusiness(context, brandId)
-                      .whenComplete(() {
-                    Navigator.pop(context);
-                  });
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return DeleteBrandScreen(
+                          url: widget.url,
+                          name: widget.brandName,
+                          brandId: widget.brandId,
+                          categoryName: widget.categoryName,
+                        );
+                      },
+                    ),
+                  );
                 },
               );
             },

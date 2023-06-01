@@ -77,56 +77,43 @@ class _VendorManageScreenState extends State<VendorManageScreen> {
             thickness: 1.5,
             color: color.black,
           ),
-          FutureBuilder(
-            future: vendorManageController.getAllVendorList(context),
-            builder: ((context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return ListView.builder(
-                  controller: vendorManageController.scroll,
-                  shrinkWrap: true,
-                  itemCount: model.apiAllVendorList
-                      .length, // Replace with your actual item count
-                  itemBuilder: (context, index) {
-                    return VendorList(
-                      vendorId: "${index + 1}",
-                      status:
-                          model.apiAllVendorList[index].status.toString() == "1"
-                              ? "Active"
-                              : "Inactive",
-                      statusColor:
-                          model.apiAllVendorList[index].status.toString() == "1"
-                              ? color.activeColor
-                              : color.inactiveColor,
-                      btnFun: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return VendorEditScreen(
-                                id: model.apiAllVendorList[index].vendorId,
-                                shopName:
-                                    model.apiAllVendorList[index].shopName,
-                                name: model.apiAllVendorList[index].name,
-                                email: model.apiAllVendorList[index].email,
-                                phone: model.apiAllVendorList[index].phone,
-                                address: model.apiAllVendorList[index].address,
-                                status: model.apiAllVendorList[index].status,
-                              );
-                            },
-                          ),
+          ListView.builder(
+            controller: vendorManageController.scroll,
+            shrinkWrap: true,
+            itemCount: model
+                .apiAllVendorList.length, // Replace with your actual item count
+            itemBuilder: (context, index) {
+              return VendorList(
+                vendorId: "${index + 1}",
+                status: model.apiAllVendorList[index].status.toString() == "1"
+                    ? "Active"
+                    : "Inactive",
+                statusColor:
+                    model.apiAllVendorList[index].status.toString() == "1"
+                        ? color.activeColor
+                        : color.inactiveColor,
+                btnFun: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return VendorEditScreen(
+                          id: model.apiAllVendorList[index].vendorId,
+                          shopName: model.apiAllVendorList[index].shopName,
+                          name: model.apiAllVendorList[index].name,
+                          email: model.apiAllVendorList[index].email,
+                          phone: model.apiAllVendorList[index].phone,
+                          address: model.apiAllVendorList[index].address,
+                          status: model.apiAllVendorList[index].status,
                         );
                       },
-                      shopName: model.apiAllVendorList[index].shopName,
-                      email: model.apiAllVendorList[index].email,
-                    );
-                  },
-                );
-              }
-            }),
+                    ),
+                  );
+                },
+                shopName: model.apiAllVendorList[index].shopName,
+                email: model.apiAllVendorList[index].email,
+              );
+            },
           ),
         ],
       ),

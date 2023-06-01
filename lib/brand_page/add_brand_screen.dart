@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/bottom_sheet/multi_select_bottom_sheet.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_controller.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
@@ -22,10 +24,12 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
   final controller = AddBrandController();
   bool isClickedAdd = false;
   bool isApiLoading = false;
+  bool isSelectCategory = false;
 
   String? selectedCategoryId;
 
   late List<AllCategoryModel> options;
+  List<AllCategoryModel> selectedCategory = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,121 +38,163 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
 
     return Consumer3<AddBrandModel, AllCategoryData, NavBarModel>(
         builder: (context, model, allCategoryModel, navBarModel, _) {
-      return Container(
-        width: screenWidth,
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 20,
-        ),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const MainTitle(titleName: "Adding New Brand"),
-              const SizedBoxHeight(height: 30),
-              // Choose Category
+      return SingleChildScrollView(
+        controller: controller.scroll,
+        child: Container(
+          width: screenWidth,
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 20,
+          ),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const MainTitle(titleName: "Adding New Brand"),
+                const SizedBoxHeight(height: 30),
+                // Choose Category
 
-              DropdownButton<String>(
-                value: selectedCategoryId,
-                hint: Text('Select a category'),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedCategoryId = newValue;
-                  });
-                },
-                items: options.map((AllCategoryModel categoryModel) {
-                  return DropdownMenuItem<String>(
-                    value: categoryModel.categoryId,
-                    child: Text(categoryModel.categoryName),
-                  );
-                }).toList(),
-              ),
-
-              // Brand Name Form Field
-              Form(
-                key: controller.formKey,
-                child: NameInputBox(
-                  validation: (value) {
-                    return controller.validateBrandName(value);
-                  },
-                  textEditingController: controller.brandName,
-                  boxTitle: "Name :",
-                ),
-              ),
-              const SizedBoxHeight(height: 30),
-
-              // Image choosing row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      showPreviewImage(
-                        context,
-                        model.choosedImage,
-                      ),
-                      if (model.choosedImage == null && isClickedAdd == true)
-                        Text('Please Choose Image')
-                    ],
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: isApiLoading
-                          ? MaterialStateProperty.all<Color>(
-                              color.grey,
-                            )
-                          : MaterialStateProperty.all<Color>(
-                              color.secondaryColor,
-                            ),
-                    ),
-                    onPressed: () {
-                      model.chooseImageFun();
-                    },
-                    child: Text(
-                      "Choose Image",
-                      style: TextStyle(
-                        color: isApiLoading ? color.black : color.primaryColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBoxHeight(height: 80),
-              ProfileSettingBtn(
-                btnName: "Add",
-                btnFunction: isApiLoading
-                    ? null
-                    : () {
-                        setState(() {
-                          isClickedAdd = true;
+                ElevatedButton(
+                  onPressed: () {
+                    showBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return MultiSelectBottomSheet(
+                            items: allCategoryModel.allCategoriesList
+                                .map((e) => MultiSelectItem(e, e.categoryName))
+                                .toList(),
+                            initialValue: allCategoryModel.allCategoriesList,
+                            onConfirm: (List<AllCategoryModel> result) {
+                              setState(() {
+                                selectedCategory = result;
+                                isSelectCategory = true;
+                              });
+                            },
+                          );
                         });
-                        if (controller.formKey.currentState!.validate() &&
-                            model.choosedImage != null &&
-                            selectedCategoryId != null) {
-                          setState(() {
-                            isApiLoading = true;
-                          });
-                          controller
-                              .addBrand(context, selectedCategoryId!)
-                              .whenComplete(() {
-                            setState(() {
-                              isApiLoading = false;
-                            });
-                            navBarModel.changePage(DrawerSection.allBrand);
-                          });
-                        }
-                      },
-                btnColor: isApiLoading
-                    ? MaterialStateProperty.all<Color>(
-                        color.grey,
-                      )
-                    : MaterialStateProperty.all<Color>(
-                        color.secondaryColor,
+                  },
+                  child: Text("Select Category"),
+                ),
+                if (isSelectCategory)
+                  Container(
+                    width: screenWidth * 0.9,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: color.secondaryColor,
+                    ),
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 5,
                       ),
-              ),
-              if (isClickedAdd == true && selectedCategoryId == null)
-                Text("* Select Category *"),
-            ],
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      controller: ScrollController(),
+                      itemCount: selectedCategory.length,
+                      itemBuilder: (context, index) {
+                        return index == (selectedCategory.length - 1)
+                            ? Text(
+                                "${selectedCategory[index].categoryName}.",
+                                style: TextStyle(
+                                  color: color.white,
+                                ),
+                              )
+                            : Text(
+                                "${selectedCategory[index].categoryName} ,",
+                                style: TextStyle(
+                                  color: color.white,
+                                ),
+                              );
+                      },
+                    ),
+                  ),
+                // Brand Name Form Field
+                Form(
+                  key: controller.formKey,
+                  child: NameInputBox(
+                    validation: (value) {
+                      return controller.validateBrandName(value);
+                    },
+                    textEditingController: controller.brandName,
+                    boxTitle: "Name :",
+                  ),
+                ),
+                const SizedBoxHeight(height: 30),
+
+                // Image choosing row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        showPreviewImage(
+                          context,
+                          model.choosedImage,
+                        ),
+                        if (model.choosedImage == null && isClickedAdd == true)
+                          Text('Please Choose Image')
+                      ],
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: isApiLoading
+                            ? MaterialStateProperty.all<Color>(
+                                color.grey,
+                              )
+                            : MaterialStateProperty.all<Color>(
+                                color.secondaryColor,
+                              ),
+                      ),
+                      onPressed: () {
+                        model.chooseImageFun();
+                      },
+                      child: Text(
+                        "Choose Image",
+                        style: TextStyle(
+                          color:
+                              isApiLoading ? color.black : color.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBoxHeight(height: 80),
+                ProfileSettingBtn(
+                  btnName: "Add",
+                  btnFunction: isApiLoading
+                      ? null
+                      : () {
+                          setState(() {
+                            isClickedAdd = true;
+                          });
+                          if (controller.formKey.currentState!.validate() &&
+                              model.choosedImage != null &&
+                              selectedCategoryId != null) {
+                            setState(() {
+                              isApiLoading = true;
+                            });
+                            controller
+                                .addBrand(context, selectedCategoryId!)
+                                .whenComplete(() {
+                              setState(() {
+                                isApiLoading = false;
+                              });
+                              navBarModel.changePage(DrawerSection.allBrand);
+                            });
+                          }
+                        },
+                  btnColor: isApiLoading
+                      ? MaterialStateProperty.all<Color>(
+                          color.grey,
+                        )
+                      : MaterialStateProperty.all<Color>(
+                          color.secondaryColor,
+                        ),
+                ),
+                if (isClickedAdd == true && selectedCategoryId == null)
+                  Text("* Select Category *"),
+              ],
+            ),
           ),
         ),
       );

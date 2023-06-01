@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
 import 'package:vendor_admin/brand_page/all_brand_model.dart';
+import 'package:vendor_admin/custom_config/util/dio.dart';
 import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
@@ -12,7 +13,8 @@ class AddBrandController {
   final TextEditingController brandName = TextEditingController();
 
   String? brandImage;
-  final dio = Dio();
+
+  final scroll = ScrollController();
 
   // Adding Comfirm
   Future<void> addBrand(BuildContext context, String categoryId) async {

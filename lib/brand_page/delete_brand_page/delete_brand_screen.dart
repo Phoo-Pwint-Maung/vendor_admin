@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:vendor_admin/category_page/delete_category/delete_category_controller.dart';
+import 'package:vendor_admin/brand_page/delete_brand_page/delete_brand_controller.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
 
-class DeleteCategoryScreen extends StatefulWidget {
-  final String name;
+class DeleteBrandScreen extends StatefulWidget {
   final String url;
-  final String categoryId;
-  const DeleteCategoryScreen({
-    super.key,
-    required this.name,
-    required this.url,
-    required this.categoryId,
-  });
+  final String name;
+  final String brandId;
+  final String categoryName;
+  const DeleteBrandScreen(
+      {super.key,
+      required this.url,
+      required this.name,
+      required this.brandId,
+      required this.categoryName});
 
   @override
-  State<DeleteCategoryScreen> createState() => _DeleteCategoryScreenState();
+  State<DeleteBrandScreen> createState() => _DeleteBrandScreenState();
 }
 
-class _DeleteCategoryScreenState extends State<DeleteCategoryScreen> {
-  final controller = DeleteCategoryController();
+class _DeleteBrandScreenState extends State<DeleteBrandScreen> {
+  final controller = DeleteBrandController();
   bool isApiLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,14 @@ class _DeleteCategoryScreenState extends State<DeleteCategoryScreen> {
               ),
               Text(
                 widget.name,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: color.secondaryColor,
+                ),
+              ),
+              Text(
+                widget.categoryName,
                 style: const TextStyle(
                   fontSize: 18,
                 ),
@@ -91,7 +100,7 @@ class _DeleteCategoryScreenState extends State<DeleteCategoryScreen> {
                           isApiLoading = true;
                         });
                         controller
-                            .deleteCategory(context, widget.categoryId)
+                            .deleteBrand(context, widget.brandId)
                             .whenComplete(
                           () {
                             setState(() {

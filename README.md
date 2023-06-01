@@ -19,6 +19,30 @@
     - create business
     - delete business
     - update business
+- Category
+    - get all category list
+    - CRUD category
+- Brand 
+    - get all brand lis
+    - CRUD Brand
 
 
 
+```dart
+DropdownButton<String>(
+                  value: selectedCategoryId,
+                  hint: Text('Select a category'),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCategoryId = newValue;
+                    });
+                  },
+                  items: allCategoryModel.allCategoriesList
+                      .map((AllCategoryModel categoryModel) {
+                    return DropdownMenuItem<String>(
+                      value: categoryModel.categoryId,
+                      child: Text(categoryModel.categoryName),
+                    );
+                  }).toList(),
+                ),
+```
