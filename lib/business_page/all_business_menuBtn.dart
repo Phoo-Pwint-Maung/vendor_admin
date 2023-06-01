@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vendor_admin/business_page/delete_business/delete_business_controller.dart';
+import 'package:vendor_admin/business_page/delete_business/delete_business_screen.dart';
 import 'package:vendor_admin/business_page/update_business/update_business_controller.dart';
 import 'package:vendor_admin/business_page/update_business/update_business_screen.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
@@ -21,7 +22,7 @@ class AllBusinessMenuBtn extends StatefulWidget {
 class _AllBusinessMenuBtnState extends State<AllBusinessMenuBtn> {
   final deleteController = DeleteBusinessController();
   final updateController = UpdateBusinessController();
-  bool isApiLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final businessId = widget.businessId;
@@ -92,14 +93,12 @@ class _AllBusinessMenuBtnState extends State<AllBusinessMenuBtn> {
                 },
                 // Delete Button
                 secondBtnFun: () {
-                  setState(() {
-                    isApiLoading = true;
-                  });
-                  deleteController
-                      .deleteBusiness(context, businessId)
-                      .whenComplete(() {
-                    Navigator.pop(context);
-                  });
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return DeleteBusinessScreen(
+                      businessId: businessId,
+                    );
+                  }));
                 },
               );
             },

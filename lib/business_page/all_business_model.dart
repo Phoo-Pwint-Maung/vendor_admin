@@ -8,16 +8,17 @@ class AllBusinessModel {
   final String mediaUrl;
   final List category;
   final List brand;
+  final String status;
 
-  AllBusinessModel({
-    required this.name,
-    required this.address,
-    required this.businessId,
-    required this.mediaId,
-    required this.mediaUrl,
-    required this.brand,
-    required this.category,
-  });
+  AllBusinessModel(
+      {required this.name,
+      required this.address,
+      required this.businessId,
+      required this.mediaId,
+      required this.mediaUrl,
+      required this.brand,
+      required this.category,
+      required this.status});
 }
 
 class AllBusinessData extends ChangeNotifier {
@@ -39,15 +40,24 @@ class AllBusinessData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addBusiness(AllBusinessModel list) {
+    allBusinessList.insert(0, list);
+
+    notifyListeners();
+  }
+
   void deleteBusiness(String id) {
     allBusinessList.removeWhere((element) => element.businessId == id);
     notifyListeners();
   }
 
   void editBusiness(String id, AllBusinessModel model) {
+    print("edit");
+    print(model);
     List<AllBusinessModel> selectedItem =
         allBusinessList.where((element) => element.businessId == id).toList();
     if (selectedItem.isNotEmpty) {
+      print(selectedItem);
       int index = allBusinessList.indexOf(selectedItem.first);
       allBusinessList[index] = model;
     }

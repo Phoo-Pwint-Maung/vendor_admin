@@ -18,6 +18,10 @@ class GetAllListsController {
     final vendorManageModel =
         Provider.of<VendorManageModel>(context, listen: false);
 
+    print("start getting list");
+
+    //  if lists are not empty don't call api  HERE
+
     List<Response> responses = await Future.wait(
       [
         dio.get(
@@ -47,38 +51,39 @@ class GetAllListsController {
             contentType: Headers.jsonContentType,
           ),
         ),
-        // active vendor
-        dio.get(
-          "$mainUrl/active/vendor-lists?admin_id=$adminId",
-          options: Options(
-            headers: {
-              "authorization": "Bearer $token",
-            },
-            contentType: Headers.jsonContentType,
-          ),
-        ),
-        // inactive vendor
-        dio.get(
-          "$mainUrl/inactive/vendor-lists?admin_id=$adminId",
-          options: Options(
-            headers: {
-              "authorization": "Bearer $token",
-            },
-            contentType: Headers.jsonContentType,
-          ),
-        ),
-        // all vendor list
-        dio.get(
-          "$mainUrl/vendor-lists?admin_id=$adminId",
-          options: Options(
-            headers: {
-              "authorization": "Bearer $token",
-            },
-            contentType: Headers.jsonContentType,
-          ),
-        ),
+        //   // active vendor
+        //   dio.get(
+        //     "$mainUrl/active/vendor-lists?admin_id=$adminId",
+        //     options: Options(
+        //       headers: {
+        //         "authorization": "Bearer $token",
+        //       },
+        //       contentType: Headers.jsonContentType,
+        //     ),
+        //   ),
+        //   // inactive vendor
+        //   dio.get(
+        //     "$mainUrl/inactive/vendor-lists?admin_id=$adminId",
+        //     options: Options(
+        //       headers: {
+        //         "authorization": "Bearer $token",
+        //       },
+        //       contentType: Headers.jsonContentType,
+        //     ),
+        //   ),
+        //   // all vendor list
+        //   dio.get(
+        //     "$mainUrl/vendor-lists?admin_id=$adminId",
+        //     options: Options(
+        //       headers: {
+        //         "authorization": "Bearer $token",
+        //       },
+        //       contentType: Headers.jsonContentType,
+        //     ),
+        //   ),
       ],
     );
+    print(responses);
     Future.delayed(
       const Duration(seconds: 4),
       () {
@@ -110,6 +115,8 @@ class GetAllListsController {
                 keepAllVendorList(responses[i].data["data"], vendorManageModel);
               }
             }
+          } else {
+            responses[0].statusCode;
           }
         }
       },
@@ -137,6 +144,8 @@ class GetAllListsController {
       }
 
       data.getList(list);
+
+      print(data.allCategoriesList);
     }
   }
 
@@ -173,17 +182,18 @@ class GetAllListsController {
       for (var i = 0; i < responseList.length; i++) {
         list.add(
           AllBusinessModel(
-            name: responseList[i]["name"].toString(),
-            address: responseList[i]["address"].toString(),
-            businessId: responseList[i]["_id"].toString(),
-            mediaId: responseList[i]["media"]["id"].toString(),
-            mediaUrl: responseList[i]["media"]["media_link"].toString(),
-            category: responseList[i]["category"],
-            brand: responseList[i]["category"],
-          ),
+              name: responseList[i]["name"].toString(),
+              address: responseList[i]["address"].toString(),
+              businessId: responseList[i]["_id"].toString(),
+              mediaId: responseList[i]["media"]["id"].toString(),
+              mediaUrl: responseList[i]["media"]["media_link"].toString(),
+              category: responseList[i]["category"],
+              brand: responseList[i]["brand"],
+              status: responseList[i]["status"].toString()),
         );
       }
       data.getList(list);
+      print(data.allBusinessList);
     }
   }
 

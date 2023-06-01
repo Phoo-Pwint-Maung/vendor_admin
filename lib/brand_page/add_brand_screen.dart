@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:multi_select_flutter/bottom_sheet/multi_select_bottom_sheet.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor_admin/brand_page/add_brand_controller.dart';
 import 'package:vendor_admin/brand_page/add_brand_model.dart';
@@ -54,61 +52,22 @@ class _AddBrandScreenState extends State<AddBrandScreen> {
                 const SizedBoxHeight(height: 30),
                 // Choose Category
 
-                ElevatedButton(
-                  onPressed: () {
-                    showBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return MultiSelectBottomSheet(
-                            items: allCategoryModel.allCategoriesList
-                                .map((e) => MultiSelectItem(e, e.categoryName))
-                                .toList(),
-                            initialValue: allCategoryModel.allCategoriesList,
-                            onConfirm: (List<AllCategoryModel> result) {
-                              setState(() {
-                                selectedCategory = result;
-                                isSelectCategory = true;
-                              });
-                            },
-                          );
-                        });
+                DropdownButton<String>(
+                  value: selectedCategoryId,
+                  hint: Text('Select a category'),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCategoryId = newValue;
+                    });
                   },
-                  child: Text("Select Category"),
-                ),
-                if (isSelectCategory)
-                  Container(
-                    width: screenWidth * 0.9,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: color.secondaryColor,
-                    ),
-                    child: ListView.builder(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 5,
-                        vertical: 5,
-                      ),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      controller: ScrollController(),
-                      itemCount: selectedCategory.length,
-                      itemBuilder: (context, index) {
-                        return index == (selectedCategory.length - 1)
-                            ? Text(
-                                "${selectedCategory[index].categoryName}.",
-                                style: TextStyle(
-                                  color: color.white,
-                                ),
-                              )
-                            : Text(
-                                "${selectedCategory[index].categoryName} ,",
-                                style: TextStyle(
-                                  color: color.white,
-                                ),
-                              );
-                      },
-                    ),
-                  ),
-                // Brand Name Form Field
+                  items: allCategoryModel.allCategoriesList
+                      .map((AllCategoryModel categoryModel) {
+                    return DropdownMenuItem<String>(
+                      value: categoryModel.categoryId,
+                      child: Text(categoryModel.categoryName),
+                    );
+                  }).toList(),
+                ), // Brand Name Form Field
                 Form(
                   key: controller.formKey,
                   child: NameInputBox(

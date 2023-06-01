@@ -46,3 +46,61 @@ DropdownButton<String>(
                   }).toList(),
                 ),
 ```
+
+```dart
+   ElevatedButton(
+                  onPressed: () {
+                    showBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return MultiSelectBottomSheet(
+                            items: allCategoryModel.allCategoriesList
+                                .map((e) => MultiSelectItem(e, e.categoryName))
+                                .toList(),
+                            initialValue: allCategoryModel.allCategoriesList,
+                            onConfirm: (List<AllCategoryModel> result) {
+                              setState(() {
+                                selectedCategory = result;
+                                isSelectCategory = true;
+                              });
+                            },
+                          );
+                        });
+                  },
+                  child: Text("Select Category"),
+                ),
+                if (isSelectCategory)
+                  Container(
+                    width: screenWidth * 0.9,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: color.secondaryColor,
+                    ),
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 5,
+                      ),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      controller: ScrollController(),
+                      itemCount: selectedCategory.length,
+                      itemBuilder: (context, index) {
+                        return index == (selectedCategory.length - 1)
+                            ? Text(
+                                "${selectedCategory[index].categoryName}.",
+                                style: TextStyle(
+                                  color: color.white,
+                                ),
+                              )
+                            : Text(
+                                "${selectedCategory[index].categoryName} ,",
+                                style: TextStyle(
+                                  color: color.white,
+                                ),
+                              );
+                      },
+                    ),
+                  ),
+               
+```

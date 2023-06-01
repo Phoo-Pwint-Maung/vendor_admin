@@ -8,8 +8,29 @@ class UpdateBusinessModel extends ChangeNotifier {
   XFile? choosedImage;
   String? imageStr;
   bool isSelectImage = false;
+  int? selectedIndex;
+  List? selectedCategoryList;
+  List? selectedBrandList;
 
   AllBusinessModel? addNewBusiness;
+
+  // Keep Selected Index
+  void keepSelectedIndex(int index) {
+    selectedIndex = index;
+    notifyListeners();
+  }
+
+  // keep selected category List
+  void keepSelectedCategoryList(List list) {
+    selectedCategoryList = list;
+    notifyListeners();
+  }
+
+  // keep selected category List
+  void keepSelectedBrandList(List list) {
+    selectedBrandList = list;
+    notifyListeners();
+  }
 
   // Keeping Image String , choosed image
   Future<void> chooseAndKeepImage() async {
@@ -23,8 +44,6 @@ class UpdateBusinessModel extends ChangeNotifier {
           'data:image/png;base64,${base64Encode(singleImageBytes)}';
 
       imageStr = singleImageBase;
-    } else {
-      return;
     }
 
     notifyListeners();

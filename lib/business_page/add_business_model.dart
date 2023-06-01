@@ -1,20 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vendor_admin/business_page/all_business_model.dart';
 
 import 'package:vendor_admin/custom_config/util/image_base64.dart';
 
 class AddBusinessModel extends ChangeNotifier {
   XFile? choosedImage;
   String? imageStr;
-
-  AllBusinessModel? addNewBusiness;
-
-  void getAddBusinessData(AllBusinessModel model) {
-    addNewBusiness = model;
-    notifyListeners();
-  }
 
   // Keeping Image String , choosed image
   Future<void> chooseAndKeepImage() async {

@@ -7,6 +7,12 @@ import 'package:vendor_admin/custom_config/util/id_and_token.dart';
 import 'package:vendor_admin/custom_config/util/mainUrl.dart';
 
 class DeleteBusinessController {
+  int selectedItemIndex({required AllBusinessData data, required String id}) {
+    return data.allBusinessList.indexWhere((element) {
+      return element.businessId == id;
+    });
+  }
+
   Future<void> deleteBusiness(BuildContext context, String id) async {
     final allBusinessModel =
         Provider.of<AllBusinessData>(context, listen: false);

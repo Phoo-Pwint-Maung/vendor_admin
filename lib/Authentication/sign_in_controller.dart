@@ -19,10 +19,8 @@ class SignInFormController {
     final signInModel = Provider.of<SignInData>(context, listen: false);
     print("login");
     const String url = "$mainUrl/login";
-    final body = {
-      "email": email.text,
-      "password": password.text,
-    };
+    final body = {"email": email.text, "password": password.text};
+    print(body);
 
     final response = await dio.post(
       url,

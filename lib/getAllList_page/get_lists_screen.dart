@@ -20,7 +20,7 @@ class _GetAllListsScreenState extends State<GetAllListsScreen> {
           children: [
             FutureBuilder(
                 future: getAllList.getAllList(context).whenComplete(() {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:vendor_admin/brand_page/all_brand_model.dart';
 import 'package:vendor_admin/business_page/all_business_model.dart';
 import 'package:vendor_admin/business_page/update_business/update_business_controller.dart';
 import 'package:vendor_admin/business_page/update_business/update_business_model.dart';
+import 'package:vendor_admin/category_page/all_category_model.dart';
 import 'package:vendor_admin/custom_config/ui/add_brand_component.dart';
 import 'package:vendor_admin/custom_config/ui/sizedbox_height.dart';
 import 'package:vendor_admin/custom_config/util/image_base64.dart';
@@ -19,40 +22,51 @@ class UpdateBusinessScreen extends StatefulWidget {
 
 class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
   final updateController = UpdateBusinessController();
+  List<AllCategoryModel> selectedCategory = [];
+  List<AllBrandModel> selectedBrand = [];
+  bool isSelectedCategory = false;
+  bool isSelectedBrand = false;
 
-  List<AllBusinessModel> previewData = [];
+  int selectedItemIndex = 0;
+
+  bool isApiCallInProgress = false;
+
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
 
     setState(() {
-      previewData = updateController.selectedBusinessData(context, widget.id);
+      selectedItemIndex =
+          updateController.selectedBusinessData(context, widget.id);
     });
   }
 
-  bool isApiCallInProgress = false; // Flag to track API call status
+  // Flag to track API call status
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Consumer2<UpdateBusinessModel, NavBarModel>(
-        builder: (context, model, navBarModel, _) {
-      return Scaffold(
-        backgroundColor: color.ternaryColor,
-        appBar: AppBar(
-          backgroundColor: color.secondaryColor,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back_ios_new_sharp,
-            ),
+    return Scaffold(
+      backgroundColor: color.ternaryColor,
+      appBar: AppBar(
+        backgroundColor: color.secondaryColor,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new_sharp,
           ),
         ),
-        body: SingleChildScrollView(
-          controller: updateController.scroll,
-          child: Container(
+      ),
+      body: SingleChildScrollView(
+        controller: updateController.scroll,
+        child: Consumer5<UpdateBusinessModel, NavBarModel, AllBusinessData,
+                AllCategoryData, AllBrandData>(
+            builder: (context, model, navBarModel, allBusinessModel,
+                allCategoryModel, allBrandModel, _) {
+          return Container(
             padding: const EdgeInsets.symmetric(
               vertical: 20,
               horizontal: 20,
@@ -60,7 +74,9 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
             width: screenWidth,
             child: Column(
               children: [
-                MainTitle(titleName: "Update ' ${previewData.first.name} ' "),
+                MainTitle(
+                    titleName:
+                        "Update ' ${allBusinessModel.allBusinessList[selectedItemIndex].name} ' "),
                 const SizedBoxHeight(
                   height: 30,
                 ),
@@ -92,6 +108,171 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                           height: 30,
                         ),
 
+                        // Category Select
+
+                        ElevatedButton(
+                          onPressed: () {
+                            showBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return MultiSelectBottomSheet(
+                                    items: allCategoryModel.allCategoriesList
+                                        .map((e) =>
+                                            MultiSelectItem(e, e.categoryName))
+                                        .toList(),
+                                    initialValue:
+                                        allCategoryModel.allCategoriesList,
+                                    onConfirm: (List<AllCategoryModel> result) {
+                                      setState(() {
+                                        selectedCategory = result;
+                                        isSelectedCategory = true;
+                                      });
+                                    },
+                                  );
+                                });
+                          },
+                          child: Text("Select Category"),
+                        ),
+
+                        Container(
+                          width: screenWidth * 0.9,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: color.secondaryColor,
+                          ),
+                          child: ListView.builder(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 5,
+                              vertical: 5,
+                            ),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            controller: ScrollController(),
+                            itemCount: isSelectedCategory
+                                ? selectedCategory.length
+                                : allBusinessModel
+                                    .allBusinessList[selectedItemIndex]
+                                    .category
+                                    .length,
+                            itemBuilder: (context, index) {
+                              return isSelectedCategory
+                                  ? index == (selectedCategory.length - 1)
+                                      ? Text(
+                                          "${selectedCategory[index].categoryName}.",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        )
+                                      : Text(
+                                          "${selectedCategory[index].categoryName} ,",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        )
+                                  : index ==
+                                          (allBusinessModel
+                                                  .allBusinessList[
+                                                      selectedItemIndex]
+                                                  .category
+                                                  .length -
+                                              1)
+                                      ? Text(
+                                          "${allBusinessModel.allBusinessList[selectedItemIndex].category[index]["name"]}.",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        )
+                                      : Text(
+                                          "${allBusinessModel.allBusinessList[selectedItemIndex].category[index]["name"]} ,",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        );
+                            },
+                          ),
+                        ),
+                        // Brand Select
+
+                        ElevatedButton(
+                          onPressed: () {
+                            showBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return MultiSelectBottomSheet(
+                                      items: allBrandModel.allBrandList
+                                          .map((e) =>
+                                              MultiSelectItem(e, e.brandName))
+                                          .toList(),
+                                      initialValue: allBrandModel.allBrandList,
+                                      onConfirm: (List<AllBrandModel> result) {
+                                        setState(() {
+                                          selectedBrand = result;
+                                          isSelectedBrand = true;
+                                        });
+                                      });
+                                });
+                          },
+                          child: Text("Select Brand"),
+                        ),
+
+                        Container(
+                          width: screenWidth * 0.9,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: color.secondaryColor,
+                          ),
+                          child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 5,
+                              vertical: 5,
+                            ),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            controller: ScrollController(),
+                            itemCount: isSelectedBrand
+                                ? selectedBrand.length
+                                : allBusinessModel
+                                    .allBusinessList[selectedItemIndex]
+                                    .brand
+                                    .length,
+                            itemBuilder: (context, index) {
+                              return isSelectedBrand
+                                  ? index == (selectedBrand.length - 1)
+                                      ? Text(
+                                          "${selectedBrand[index].brandName}.",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        )
+                                      : Text(
+                                          "${selectedBrand[index].brandName} ,",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        )
+                                  : index ==
+                                          (allBusinessModel
+                                                  .allBusinessList[
+                                                      selectedItemIndex]
+                                                  .brand
+                                                  .length -
+                                              1)
+                                      ? Text(
+                                          "${allBusinessModel.allBusinessList[selectedItemIndex].brand[index]["name"]}.",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        )
+                                      : Text(
+                                          "${allBusinessModel.allBusinessList[selectedItemIndex].brand[index]["name"]} ,",
+                                          style: TextStyle(
+                                            color: color.white,
+                                          ),
+                                        );
+                            },
+                          ),
+                        ),
+
                         // showing Image row
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +283,9 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                                   context,
                                   model,
                                   model.choosedImage,
-                                  previewData.first.mediaUrl,
+                                  allBusinessModel
+                                      .allBusinessList[selectedItemIndex]
+                                      .mediaUrl,
                                   model.isSelectImage,
                                 )
                               ],
@@ -161,7 +344,12 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                           if (updateController.formKey.currentState!
                               .validate()) {
                             updateController
-                                .updateBusiness(context, widget.id)
+                                .updateBusiness(
+                              context,
+                              widget.id,
+                              selectedCategory,
+                              selectedBrand,
+                            )
                                 .catchError((error) {
                               print('API Error: $error');
                             }).whenComplete(() {
@@ -182,9 +370,9 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
                 ),
               ],
             ),
-          ),
-        ),
-      );
-    });
+          );
+        }),
+      ),
+    );
   }
 }

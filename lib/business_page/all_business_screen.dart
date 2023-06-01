@@ -16,11 +16,6 @@ class AllBusinessScreen extends StatefulWidget {
 
 class _AllBusinessScreenState extends State<AllBusinessScreen> {
   final allBusiness = AllBusinessController();
-  String? businessName;
-  String? businessAddress;
-  String? businessId;
-  String? mediaId;
-  String? mediaUrl;
 
   @override
   Widget build(BuildContext context) {
